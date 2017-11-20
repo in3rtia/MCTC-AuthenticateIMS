@@ -1,0 +1,200 @@
+﻿@model AuthenticateIMS.Models.Stock_Withdraw
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="content-header">
+    <h1>
+        Create Withdrw
+        <small>View</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-home"></i> Dashboard</a></li>
+        <li class="active">Create withdraw</li>
+    </ol>
+</section>
+<br />
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="box" style="border-top-color: #3c8dbc">
+                <div class="box-header">
+                    <h3 class="box-title">Requester details</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        <label for="withdrawId">Withdraw ID</label>
+                        @Html.EditorFor(model => model.withdraw_ID, new { htmlAttributes = new { @class = "form-control", @id = "withdrawId", @value = ViewBag.withdrawId, @name = "withdrawId" } })
+                        @Html.ValidationMessageFor(model => model.withdraw_ID, "", new { @class = "text-danger" })
+
+                    </div>
+                    <div class="form-group">
+                        <label for="withdrawer">Withdrawer</label>
+                        @Html.DropDownList("withdrawer", null, htmlAttributes: new { @class = "form-control", @name = "withdrawer" })
+                        @Html.ValidationMessageFor(model => model.withdrawer, "", new { @class = "text-danger" })
+
+                    </div>
+                    <div class="form-group ">
+                        <label for="name">First name</label>
+                        <input type="text" class="form-control" id="name" placeholder="Name of requester" value="">
+                        @*@Html.ValidationMessageFor(model => model., "", new { @class = "text-danger" })*@
+                    </div>
+                    <div class="form-group ">
+                        <label for="name">Last Name</label>
+                        <input type="text" class="form-control" id="name" placeholder="Name of requester" value="">
+                        @*@Html.ValidationMessageFor(model => model., "", new { @class = "text-danger" })*@
+                    </div>
+                    <div class="form-group ">
+                        <label for="position">Position</label>
+                        <input type="text" class="form-control" id="position" placeholder="Position" value="">
+                        @*@Html.ValidationMessageFor(model => model., "", new { @class = "text-danger" })*@
+                    </div>
+                    <div class="form-group">
+                        <label for="department">Department</label>
+                        <input type="text" class="form-control" id="department" placeholder="Department" value="">
+                        @*@Html.ValidationMessageFor(model => model., "", new { @class = "text-danger" })*@
+                    </div>
+                    <div class="form-group ">
+                        <label for="site">Site</label>
+                        <input type="text" class="form-control" id="Site" placeholder="Site" value="">
+                        @*@Html.ValidationMessageFor(model => model., "", new { @class = "text-danger" })*@
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="box" style="border-top-color: #3c8dbc">
+                <div class="box-header">
+                    <h3 class="box-title">Stock details</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+
+                    <div class="form-group">
+                        <label for="stock_name">Stock Name</label>
+
+                        @Html.DropDownList("stock_code", null, htmlAttributes: new { @class = "form-control", @name = "stock_name" })
+                        @Html.ValidationMessageFor(model => model.stock_code, "", new { @class = "text-danger" })
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="quantity">Quantity</label>
+
+                        @Html.EditorFor(model => model.quantity, new { htmlAttributes = new { @class = "form-control", @name = "quantity" } })
+                        @Html.ValidationMessageFor(model => model.quantity, "", new { @class = "text-danger" })
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="unit_of_withdraw>">Unit of withdraw</label>
+
+                        @Html.EditorFor(model => model.unit_of_withdraw, new { htmlAttributes = new { @class = "form-control", @name = "unit_of_withdraw" } })
+                        @Html.ValidationMessageFor(model => model.unit_of_withdraw, "", new { @class = "text-danger" })
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="date_of_withdraw">Date of Withdraw</label>
+
+                        @Html.EditorFor(model => model.date_of_withdraw, new { htmlAttributes = new { @class = "form-control", @name = "date_of_withdraw" } })
+                        @Html.ValidationMessageFor(model => model.date_of_withdraw, "", new { @class = "text-danger" })
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="compartment_Id">Compartment</label>
+
+                        @Html.DropDownList("compartment_ID", null, htmlAttributes: new { @class = "form-control", @name = "compartment_Id" })
+                        @Html.ValidationMessageFor(model => model.compartment_ID, "", new { @class = "text-danger" })
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="stock_type">Stock type</label>
+
+                        @Html.EditorFor(model => model.stock_type, new { htmlAttributes = new { @class = "form-control", @name = "stock_type" } })
+                        @Html.ValidationMessageFor(model => model.stock_type, "", new { @class = "text-danger" })
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="expiry_date">Expiry date</label>
+
+                        @Html.EditorFor(model => model.expiry_date, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.expiry_date, "", new { @class = "text-danger" })
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="stock_category">Stock category</label>
+
+                        @Html.DropDownList("category_ID", null, htmlAttributes: new { @class = "form-control", @name = "stock_ategory" })
+                        @Html.ValidationMessageFor(model => model.category_ID, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- ./row-->
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box" style="border-top-color: #3c8dbc">
+                <div class="box-header">
+                    <h3 class="box-title">Comment about this withdraw</h3>
+                </div>
+                <!-- /.box-header -->
+
+                <div class="box-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="purpose" class="col-sm-2 col-md-2 col-lg-2 control-label">Comment</label>
+                            <div class="col-sm-10 col-md-10 col-lg-10">
+                                <textarea class="form-control" id="purpose" rows="6"></textarea>
+                                @Html.ValidationMessageFor(model => model, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </form>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary pull-right">Create</button>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+
+    @*<div class="form-horizontal">
+        <h4>Stock_Withdraw</h4>
+        <hr />
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+               
+            </div>
+        </div>
+    </div>*@
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
