@@ -17,6 +17,7 @@ namespace AuthenticateIMS.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Employee_Details()
         {
+            this.Approvals = new HashSet<Approval>();
             this.Movements = new HashSet<Movement>();
             this.Movements1 = new HashSet<Movement>();
             this.Request_Details = new HashSet<Request_Details>();
@@ -33,6 +34,8 @@ namespace AuthenticateIMS.Models
         public string position { get; set; }
         public string job_title { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Approval> Approvals { get; set; }
         public virtual CustomUser CustomUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Movement> Movements { get; set; }

@@ -42,11 +42,11 @@
                         {
                             <tr>
                                 <td>@item.request_ID</td>
-                                <td>@item.number_of_requests</td>
+                                <td>@item.number_of_requests items</td>
                                 <td>@item.requesterFirstName @item.requesterLastName</td>
                                 <td>@item.date_of_request</td>
                                 <td>@item.approverFirstName @item.approverLastName</td>
-                                <td>@Html.ActionLink("View Details", "Create")</td>
+                                <td>@Html.ActionLink("View Details", "MyOpenRequestsDetails", new { id = @item.request_ID })</td>
 
                             </tr>
                         }

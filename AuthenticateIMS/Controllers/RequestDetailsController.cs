@@ -21,16 +21,106 @@ namespace IMS.Controllers
         }
 
         // GET: RequestDetails/Details/5
-        public ActionResult Details(string id)
+        public ActionResult MyOpenRequestsDetails(string id)
         {
+            int check = 1;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Request_Details request_Details = db.Request_Details.Find(id);
-            if (request_Details == null)
+            var request_Details = db.Request_Details.Include(x => x.Stock_Details).Include(x => x.Employee_Details).Where(x => (x.request_ID == id && x.approval_status == check));
+
+            var content = db.Request_Details.Include(x => x.Employee_Details).Include(x => x.Approval_Status1).Where(x => (x.request_ID == id) && (x.approval_status == check)).FirstOrDefault();
+            //var approver = db.Approvals.Include(a => a.Employee_Details).Where(a => a.request_ID == id).FirstOrDefault();
+
+            ViewBag.requestId = content.request_ID;
+            ViewBag.firstName = content.Employee_Details.firstname;
+            ViewBag.surname = content.Employee_Details.surname;
+            ViewBag.position = content.Employee_Details.position;
+            ViewBag.site = content.Employee_Details.site;
+            ViewBag.dateOfRequest = content.date_of_request;
+            ViewBag.status = content.Approval_Status1.status;
+            if (content == null)
             {
                 return HttpNotFound();
+            }
+            //if (approver.mine_number == null)
+            //{
+            //    ViewBag.approverName = "Currently not available";
+            //}
+            //else
+            //{
+            //    ViewBag.approverName = approver.Employee_Details.firstname + " " + approver.Employee_Details.surname;
+            //}
+            return View(request_Details);
+        }
+
+        //GET: Open approved requests details
+        public ActionResult ApprovedRequestsDetails (string id)
+        {
+            int check = 2;
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var request_Details = db.Request_Details.Include(x => x.Stock_Details).Include(x => x.Employee_Details).Where(x => x.request_ID == id);
+
+            var content = db.Request_Details.Include(x => x.Employee_Details).Where(x => (x.request_ID == id) && (x.approval_status == check)).FirstOrDefault();
+            var approver = db.Approvals.Include(a => a.Employee_Details).Where(a => a.request_ID == id).FirstOrDefault();
+
+            ViewBag.requestId = content.request_ID;
+            ViewBag.firstName = content.Employee_Details.firstname;
+            ViewBag.surname = content.Employee_Details.surname;
+            ViewBag.position = content.Employee_Details.position;
+            ViewBag.site = content.Employee_Details.site;
+            ViewBag.dateOfRequest = content.date_of_request;
+
+            if (content == null)
+            {
+                return HttpNotFound();
+            }
+            if (approver.mine_number == null)
+            {
+                ViewBag.approverName = "Currently not available";
+            }
+            else
+            {
+                ViewBag.approverName = approver.Employee_Details.firstname + " " + approver.Employee_Details.surname;
+            }
+            return View(request_Details);
+        }
+
+        //GET: Rejected requests details
+        public ActionResult RejectedRequestsDetails (string id)
+        {
+            int check = 4;
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var request_Details = db.Request_Details.Include(x => x.Stock_Details).Include(x => x.Employee_Details).Where(x => x.request_ID == id);
+
+            var content = db.Request_Details.Include(x => x.Employee_Details).Where(x => (x.request_ID == id) && (x.approval_status == check)).FirstOrDefault();
+            var approver = db.Approvals.Include(a => a.Employee_Details).Where(a => a.request_ID == id).FirstOrDefault();
+
+            ViewBag.requestId = content.request_ID;
+            ViewBag.firstName = content.Employee_Details.firstname;
+            ViewBag.surname = content.Employee_Details.surname;
+            ViewBag.position = content.Employee_Details.position;
+            ViewBag.site = content.Employee_Details.site;
+            ViewBag.dateOfRequest = content.date_of_request;
+
+            if (content == null)
+            {
+                return HttpNotFound();
+            }
+            if (approver.mine_number == null)
+            {
+                ViewBag.approverName = "Currently not available";
+            }
+            else
+            {
+                ViewBag.approverName = approver.Employee_Details.firstname + " " + approver.Employee_Details.surname;
             }
             return View(request_Details);
         }
@@ -43,7 +133,7 @@ namespace IMS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             //var number = db.CustomUsers.Where(x => x.email == name).Select(x => x.mine_number).SingleOrDefault();
-            var model = db.getMyOpenRequests(id, 0);
+            var model = db.getMyOpenRequests(id, 1);
             return View(model);
         }
 
@@ -52,6 +142,45 @@ namespace IMS.Controllers
         {
             var model = db.getAllApprovedORDeniedRequests(2);
             return View(model);
+        }
+
+        //GET: All approved details
+        public ActionResult ApprovedDetails(string id)
+        {
+            if (id == null)
+            {
+                return View("Approved");
+            }
+            int check = 2;
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var request_Details = db.Request_Details.Include(x => x.Stock_Details).Include(x => x.Employee_Details).Where(x => (x.request_ID == id && x.approval_status == check));
+
+            var content = db.Request_Details.Include(x => x.Employee_Details).Where(x => (x.request_ID == id) && (x.approval_status == check)).FirstOrDefault();
+            var approver = db.Approvals.Include(a => a.Employee_Details).Where(a => a.request_ID == id).FirstOrDefault();
+
+            ViewBag.requestId = content.request_ID;
+            ViewBag.firstName = content.Employee_Details.firstname;
+            ViewBag.surname = content.Employee_Details.surname;
+            ViewBag.position = content.Employee_Details.position;
+            ViewBag.site = content.Employee_Details.site;
+            ViewBag.dateOfRequest = content.date_of_request;
+
+            if (content == null)
+            {
+                return HttpNotFound();
+            }
+            if (approver.mine_number == null)
+            {
+                ViewBag.approverName = "Currently not available";
+            }
+            else
+            {
+                ViewBag.approverName = approver.Employee_Details.firstname + " " + approver.Employee_Details.surname;
+            }
+            return View(request_Details);
         }
 
         // GET: All rejected requests
@@ -64,8 +193,43 @@ namespace IMS.Controllers
         //GET: All open requests
         public ActionResult Open()
         {
-            var model = db.getAllApprovedORDeniedRequests(0);
+            var model = db.getAllApprovedORDeniedRequests(1);
             return View(model);
+        }
+
+        //GET: All poen requests details
+        public ActionResult OpenDetails(string id)
+        {
+            int check = 1;
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var request_Details = db.Request_Details.Include(x => x.Stock_Details).Include(x => x.Employee_Details).Where(x => (x.request_ID == id && x.approval_status == check));
+
+            var content = db.Request_Details.Include(x => x.Employee_Details).Where(x => (x.request_ID == id) && (x.approval_status == check)).FirstOrDefault();
+            var approver = db.Approvals.Include(a => a.Employee_Details).Where(a => a.request_ID == id).FirstOrDefault();
+
+            ViewBag.requestId = content.request_ID;
+            ViewBag.firstName = content.Employee_Details.firstname;
+            ViewBag.surname = content.Employee_Details.surname;
+            ViewBag.position = content.Employee_Details.position;
+            ViewBag.site = content.Employee_Details.site;
+            ViewBag.dateOfRequest = content.date_of_request;
+
+            if (content == null)
+            {
+                return HttpNotFound();
+            }
+            //if (approver.mine_number == null)
+            //{
+            //    ViewBag.approverName = "Currently not available";
+            //}
+            //else
+            //{
+            //    ViewBag.approverName = approver.Employee_Details.firstname + " " + approver.Employee_Details.surname;
+            //}
+            return View(request_Details);
         }
 
         // GET: RequestDetails/Create
@@ -105,29 +269,38 @@ namespace IMS.Controllers
         // POST: Custom method for creating a request
         public void createRequest(string request_ID, string stock_code, string compartment_ID, string purpose_of_item, string mine_number, string date_of_request, string quant,string unit_of_issue, string status, string approver)
         {
+            var stock = db.Stock_Details.Where(x => x.stock_code == stock_code).FirstOrDefault();
             int quantity = Int32.Parse(quant);
+            //int minimum = Int32.Parse(stock.minimum_level);
+            int difference = stock.quantity_available - stock.minimum_level;
             int approval_status = Int32.Parse(status);
-            if (ModelState.IsValid)
-            {
-                db.insertRequest(
-                    request_ID, 
-                    stock_code, 
-                    compartment_ID, 
-                    purpose_of_item, 
-                    mine_number, 
-                    date_of_request, 
-                    quantity, 
-                    unit_of_issue, 
-                    approval_status, 
-                    approver
-                );
 
-                TempData["Success"] = "Requests made successfully.";
-            }
-            else
+            if(stock.quantity_available > stock.minimum_level && ModelState.IsValid)
             {
-                ViewData["Error"] = "Error creating requests.";
+                if(quantity < stock.quantity_available && quantity <= difference)
+                {
+                    db.insertRequest(
+                       request_ID,
+                       stock_code,
+                       compartment_ID,
+                       purpose_of_item,
+                       mine_number,
+                       date_of_request,
+                       quantity,
+                       unit_of_issue,
+                       approval_status,
+                       approver
+                   );   
+
+                    TempData["Success"] = "Requests made successfully.";
+                }
+                else
+                {
+                    ViewData["Error"] = "Error creating requests.";
+                }
+
             }
+           
             
         }
 

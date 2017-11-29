@@ -94,7 +94,7 @@
                                         <a href="#" class="btn btn-default btn-flat">Profile</a>
                                     </div>
                                     <div class="pull-right">
-                                        <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                        <a href="@Url.Action("LogOff", "Account")" class="btn btn-default btn-flat">Sign out</a>
                                     </div>
                                 </li>
                             </ul>
@@ -184,9 +184,10 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
+                            <li><a href="@Url.Action("Create", "StockDetails")"><i class="fa fa-circle-o"></i>Add new stock</a></li>
                             <li><a href="@Url.Action("AvailableStock", "StockDetails")"><i class="fa fa-circle-o"></i> Available stock</a></li>
                             <li><a href="@Url.Action("AllStock", "StockDetails")"><i class="fa fa-circle-o"></i> All stock</a></li>
-                            <li><a href="../UI/buttons.html"><i class="fa fa-circle-o"></i> Create withdraw</a></li>
+                            <li><a href="@Url.Action("Create", "StockWithdraw")"><i class="fa fa-circle-o"></i> Create order</a></li>
                         </ul>
                     </li>
                     <li class="treeview">
@@ -213,7 +214,7 @@
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/NS")
+    @*@Scripts.Render("~/bundles/NS")*@
     @Scripts.Render("~/bundles/bootstrap")
     @*<script>
         function express () {

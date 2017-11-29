@@ -9,6 +9,16 @@
     <Property Name="status" Type="String" MaxLength="70" FixedLength="false" Unicode="false" Nullable="false" />
     <NavigationProperty Name="Request_Details" Relationship="Self.FK_Request_Details_Approval_Status" FromRole="Approval_Status" ToRole="Request_Details" />
   </EntityType>
+  <EntityType Name="Approval">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="request_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="stock_code" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="mine_number" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Employee_Details" Relationship="Self.FK_Mine_Number" FromRole="Approvals" ToRole="Employee_Details" />
+  </EntityType>
   <EntityType Name="CustomUser">
     <Key>
       <PropertyRef Name="mine_number" />
@@ -33,6 +43,7 @@
     <Property Name="department" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
     <Property Name="position" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
     <Property Name="job_title" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Approvals" Relationship="Self.FK_Mine_Number" FromRole="Employee_Details" ToRole="Approvals" />
     <NavigationProperty Name="CustomUser" Relationship="Self.FK_users_Employee_Details" FromRole="Employee_Details" ToRole="CustomUsers" />
     <NavigationProperty Name="Movements" Relationship="Self.FK_Issue_Details_Employee_Details" FromRole="Employee_Details" ToRole="Movements" />
     <NavigationProperty Name="Movements1" Relationship="Self.FK_Movements_Employee_Details" FromRole="Employee_Details" ToRole="Movements" />
@@ -61,6 +72,7 @@
     <NavigationProperty Name="Return_Status1" Relationship="Self.FK_Issue_Details_Return_Status" FromRole="Movements" ToRole="Return_Status" />
     <NavigationProperty Name="Stock_Details" Relationship="Self.FK_Movements_Stock_Details" FromRole="Movements" ToRole="Stock_Details" />
     <NavigationProperty Name="Type_of_Transaction" Relationship="Self.FK_Movements_Type_of_Transaction" FromRole="Movements" ToRole="Type_of_Transaction" />
+    <Property Name="comment" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="Request_Details">
     <Key>
@@ -77,6 +89,8 @@
     <Property Name="unit_of_issue" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
     <Property Name="approval_status" Type="Int32" />
     <Property Name="approver" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="comment" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="expected_date" Type="DateTime" Precision="3" />
     <NavigationProperty Name="Approval_Status1" Relationship="Self.FK_Request_Details_Approval_Status" FromRole="Request_Details" ToRole="Approval_Status" />
     <NavigationProperty Name="Employee_Details" Relationship="Self.FK_Request_Details_Employee_Details" FromRole="Request_Details" ToRole="Employee_Details" />
     <NavigationProperty Name="Stock_Details" Relationship="Self.FK_Request_Details_Stock_Details" FromRole="Request_Details" ToRole="Stock_Details" />
@@ -150,7 +164,7 @@
     <Property Name="description_of_items" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="unit_of_issue" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="reorder_level" Type="Int32" />
-    <Property Name="minimum_level" Type="Int32" />
+    <Property Name="minimum_level" Type="Int32" Nullable="false" />
     <Property Name="date_of_order" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="expiry_date" Type="DateTime" Precision="3" />
     <Property Name="stock_type" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
@@ -187,8 +201,9 @@
     <Property Name="date_of_withdraw" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="compartment_ID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="stock_type" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="expiry_date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="expiry_date" Type="DateTime" Precision="3" />
     <Property Name="category_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="Employee_Details" Relationship="Self.FK_Stock_Withdraw_Employee_Details" FromRole="Stock_Withdraw" ToRole="Employee_Details" />
     <NavigationProperty Name="Shelf_Compartment" Relationship="Self.FK_Stock_Withdraw_Shelf_Compartment" FromRole="Stock_Withdraw" ToRole="Shelf_Compartment" />
     <NavigationProperty Name="Stock_Category" Relationship="Self.FK_Stock_Withdraw_Stock_Category" FromRole="Stock_Withdraw" ToRole="Stock_Category" />
@@ -230,6 +245,18 @@
       </Principal>
       <Dependent Role="Request_Details">
         <PropertyRef Name="approval_status" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Mine_Number">
+    <End Role="Employee_Details" Type="Self.Employee_Details" Multiplicity="0..1" />
+    <End Role="Approvals" Type="Self.Approval" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee_Details">
+        <PropertyRef Name="mine_number" />
+      </Principal>
+      <Dependent Role="Approvals">
+        <PropertyRef Name="mine_number" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -457,6 +484,7 @@
   </Association>
   <EntityContainer Name="StockManagementEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="Approval_Status" EntityType="Self.Approval_Status" />
+    <EntitySet Name="Approvals" EntityType="Self.Approval" />
     <EntitySet Name="CustomUsers" EntityType="Self.CustomUser" />
     <EntitySet Name="Employee_Details" EntityType="Self.Employee_Details" />
     <EntitySet Name="Movements" EntityType="Self.Movement" />
@@ -476,6 +504,10 @@
     <AssociationSet Name="FK_Request_Details_Approval_Status" Association="Self.FK_Request_Details_Approval_Status">
       <End Role="Approval_Status" EntitySet="Approval_Status" />
       <End Role="Request_Details" EntitySet="Request_Details" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Mine_Number" Association="Self.FK_Mine_Number">
+      <End Role="Employee_Details" EntitySet="Employee_Details" />
+      <End Role="Approvals" EntitySet="Approvals" />
     </AssociationSet>
     <AssociationSet Name="FK_users_Employee_Details" Association="Self.FK_users_Employee_Details">
       <End Role="Employee_Details" EntitySet="Employee_Details" />
@@ -575,6 +607,7 @@
     <FunctionImport Name="insertIssue">
       <Parameter Name="movement_ID" Mode="In" Type="String" />
       <Parameter Name="stock_code" Mode="In" Type="String" />
+      <Parameter Name="compartment_ID" Mode="In" Type="String" />
       <Parameter Name="request_ID" Mode="In" Type="String" />
       <Parameter Name="quantity_supplied" Mode="In" Type="Int32" />
       <Parameter Name="issued_by" Mode="In" Type="String" />
@@ -582,7 +615,6 @@
       <Parameter Name="date_received" Mode="In" Type="DateTime" />
       <Parameter Name="return_status" Mode="In" Type="Int32" />
       <Parameter Name="expected_return_date" Mode="In" Type="DateTime" />
-      <Parameter Name="return_date" Mode="In" Type="DateTime" />
     </FunctionImport>
     <FunctionImport Name="insertRequest">
       <Parameter Name="request_ID" Mode="In" Type="String" />
@@ -657,28 +689,22 @@
   </EntityContainer>
   <ComplexType Name="getAllApprovedORDeniedRequests_Result">
     <Property Type="String" Name="request_ID" Nullable="false" MaxLength="25" />
-    <Property Type="String" Name="description_of_items" Nullable="false" />
-    <Property Type="Int32" Name="quantity" Nullable="false" />
-    <Property Type="String" Name="purpose_of_item" Nullable="false" MaxLength="50" />
     <Property Type="String" Name="requesterFirstName" Nullable="false" MaxLength="50" />
-    <Property Type="String" Name="requesterSurname" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="requesterLastName" Nullable="false" MaxLength="50" />
     <Property Type="DateTime" Name="date_of_request" Nullable="false" Precision="23" />
-    <Property Type="String" Name="status" Nullable="false" MaxLength="70" />
-    <Property Type="String" Name="approverFName" Nullable="false" MaxLength="50" />
-    <Property Type="String" Name="approverLName" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="approval_status" Nullable="true" />
+    <Property Type="String" Name="approverFirstName" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="approverLastName" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="number_of_requests" Nullable="true" />
   </ComplexType>
   <ComplexType Name="getAllIssues_Result">
-    <Property Type="String" Name="movement_ID" Nullable="false" MaxLength="10" />
-    <Property Type="String" Name="description_of_items" Nullable="false" />
     <Property Type="String" Name="request_ID" Nullable="false" MaxLength="25" />
-    <Property Type="Int32" Name="quantity_supplied" Nullable="false" />
-    <Property Type="String" Name="IssuerFirstName" Nullable="false" MaxLength="50" />
-    <Property Type="String" Name="IssuerLastName" Nullable="false" MaxLength="50" />
-    <Property Type="String" Name="ReceiverFNAme" Nullable="false" MaxLength="50" />
-    <Property Type="String" Name="ReceiverLNAme" Nullable="false" MaxLength="50" />
-    <Property Type="String" Name="status" Nullable="false" MaxLength="50" />
-    <Property Type="DateTime" Name="expected_return_date" Nullable="true" Precision="23" />
-    <Property Type="DateTime" Name="return_date" Nullable="true" Precision="23" />
+    <Property Type="String" Name="requesterFirstName" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="requesterLastName" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="transaction_type_ID" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="issuerFirstName" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="issuerLastName" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="number_of_requests" Nullable="true" />
   </ComplexType>
   <ComplexType Name="getAllRequests_Result">
     <Property Type="String" Name="request_ID" Nullable="false" MaxLength="25" />
@@ -697,7 +723,7 @@
     <Property Type="String" Name="unit_of_issue" Nullable="false" MaxLength="25" />
     <Property Type="String" Name="unit_of_withdraw" Nullable="false" MaxLength="60" />
     <Property Type="Int32" Name="reorder_level" Nullable="true" />
-    <Property Type="Int32" Name="minimum_level" Nullable="true" />
+    <Property Type="Int32" Name="minimum_level" Nullable="false" />
     <Property Type="String" Name="description" Nullable="false" MaxLength="50" />
     <Property Type="DateTime" Name="date_of_order" Nullable="false" Precision="23" />
     <Property Type="DateTime" Name="expiry_date" Nullable="true" Precision="23" />

@@ -29,7 +29,7 @@ namespace IMS.Controllers
         [ChildActionOnly]
         public PartialViewResult _StockInCategory (string id)
         {
-            var data = (from s in db.Stock_Details where s.category_ID == id orderby s.date_of_order select s).Take(5);
+            var data = db.Stock_Details.Where(x => x.category_ID == id).OrderByDescending(x => x.date_of_order).Take(4);
             return PartialView(data);
         }
 
@@ -100,8 +100,7 @@ namespace IMS.Controllers
         // GET: StockDetails/Create
         public ActionResult Create()
         {
-            ViewBag.compartment_ID = new SelectList(db.Shelf_Compartment, "compartment_ID", "shelf_ID");
-            ViewBag.availability = new SelectList(db.Stock_Availability, "availability_ID", "status");
+            ViewBag.compartment_ID = new SelectList(db.Shelf_Compartment, "compartment_ID", "compartment_ID");
             ViewBag.category_ID = new SelectList(db.Stock_Category, "category_ID", "description");
             ViewBag.stock_type = new SelectList(db.Stock_Type, "type_ID", "description");
             return View();
@@ -118,11 +117,10 @@ namespace IMS.Controllers
             {
                 db.Stock_Details.Add(stock_Details);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("AllStock");
             }
 
             ViewBag.compartment_ID = new SelectList(db.Shelf_Compartment, "compartment_ID", "shelf_ID", stock_Details.compartment_ID);
-            ViewBag.availability = new SelectList(db.Stock_Availability, "availability_ID", "status", stock_Details.availability);
             ViewBag.category_ID = new SelectList(db.Stock_Category, "category_ID", "description", stock_Details.category_ID);
             ViewBag.stock_type = new SelectList(db.Stock_Type, "type_ID", "description", stock_Details.stock_type);
             return View(stock_Details);

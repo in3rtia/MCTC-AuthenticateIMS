@@ -29,7 +29,7 @@
             <div class="box-body">
                 <div class="form-group ">
                     <label for="requester">Mine number</label>
-                    <input type="text" class="form-control" id="requester" placeholder="Mine Number" value="">
+                    <input type="text" class="form-control" id="requester" placeholder="Mine Number" value="@User.Identity.GetMineNumber()">
                     @Html.ValidationMessageFor(model => model.mine_number, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group ">

@@ -1,0 +1,16 @@
+﻿@model AuthenticateIMS.Models.Movement
+
+
+<div class="row">
+    <p>
+        If you are sure you want to <strong>
+            reverse issue
+            @Html.DisplayFor(model => model.movement_ID)
+        </strong> enter the comment below.
+    </p>
+    <div class="form-group">
+        <label for="comment">Comment:</label>
+        @Html.TextAreaFor(model => model.comment, new { @class = "form-control", @id = "commentArea" })
+    </div>
+</div>
+

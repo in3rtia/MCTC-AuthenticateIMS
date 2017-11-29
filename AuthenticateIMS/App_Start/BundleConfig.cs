@@ -41,7 +41,8 @@ namespace AuthenticateIMS
                         "~/Content/timepicker/bootstrap-timepicker.min.js",
                         "~/Content/iCheck/icheck.min.js",
                         "~/Content/datatables/jquery.dataTables.min.js",
-                        "~/Content/datatables/dataTables.bootstrap.min.js"
+                        "~/Content/datatables/dataTables.bootstrap.min.js",
+                        "~/Scripts/toastr.min.js"
                ));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
@@ -65,7 +66,8 @@ namespace AuthenticateIMS
                    "~/Content/timepicker/bootstrap-timepicker.min.css",
                    "~/Content/select2/select2.min.css",
                    "~/Content/Notification.css",
-                   "~/Content/datatables/dataTables.bootstrap.css"
+                   "~/Content/datatables/dataTables.bootstrap.css",
+                   "~/Content/toastr.min.css"
               ));
         }
     }

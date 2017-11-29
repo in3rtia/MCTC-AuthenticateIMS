@@ -13,16 +13,12 @@ namespace AuthenticateIMS.Models
     
     public partial class getAllIssues_Result
     {
-        public string movement_ID { get; set; }
-        public string description_of_items { get; set; }
         public string request_ID { get; set; }
-        public int quantity_supplied { get; set; }
-        public string IssuerFirstName { get; set; }
-        public string IssuerLastName { get; set; }
-        public string ReceiverFNAme { get; set; }
-        public string ReceiverLNAme { get; set; }
-        public string status { get; set; }
-        public Nullable<System.DateTime> expected_return_date { get; set; }
-        public Nullable<System.DateTime> return_date { get; set; }
+        public string requesterFirstName { get; set; }
+        public string requesterLastName { get; set; }
+        public string transaction_type_ID { get; set; }
+        public string issuerFirstName { get; set; }
+        public string issuerLastName { get; set; }
+        public Nullable<int> number_of_requests { get; set; }
     }
 }

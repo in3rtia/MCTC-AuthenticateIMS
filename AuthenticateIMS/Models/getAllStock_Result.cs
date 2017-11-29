@@ -19,7 +19,7 @@ namespace AuthenticateIMS.Models
         public string unit_of_issue { get; set; }
         public string unit_of_withdraw { get; set; }
         public Nullable<int> reorder_level { get; set; }
-        public Nullable<int> minimum_level { get; set; }
+        public int minimum_level { get; set; }
         public string description { get; set; }
         public System.DateTime date_of_order { get; set; }
         public Nullable<System.DateTime> expiry_date { get; set; }

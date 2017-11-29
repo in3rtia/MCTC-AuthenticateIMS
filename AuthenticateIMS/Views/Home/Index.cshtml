@@ -2,31 +2,234 @@
     ViewBag.Title = "Home Page";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style type="text/css">
+    html {
+        overflow: hidden;
+    }
+</style>
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Dashboard
+        <small>View</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Dashboard</li>
+    </ol>
+</section>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-md-3 col-sm-4 col-xs-12">
+            <a href="@Url.Action("Open", "RequestDetails")">
+                <div class="info-box">
+                    <span class="info-box-icon bg-aqua"><i class="fa fa-bell"></i></span>
+                    <div class="info-box-content">
+                        <h4>Frequent Requests</h4>
+                        @*<span class="info-box-number">90<small>%</small></span>*@
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </a>
+        </div>
+        <!-- /.col -->
+        <div class="col-md-3 col-sm-4 col-xs-10">
+            <a href="@Url.Action("Open", "RequestDetails")">
+                <div class="info-box">
+                    <span class="info-box-icon bg-red"><i class="fa fa-star-half-full"></i></span>
+                    <div class="info-box-content">
+                        <h4>Shortages</h4>
+                        @*<span class="info-box-number">41,410</span>*@
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </a>
+        </div>
+        <!-- /.col -->
+        <!-- fix for small devices only -->
+        @*<div class="clearfix visible-sm-block"></div>*@
+        <div class="col-md-3 col-sm-4 col-xs-10">
+           <a href="@Url.Action("Open", "RequestDetails")">
+               <div class="info-box">
+                   <span class="info-box-icon bg-green"><i class="fa fa-star"></i></span>
+                   <div class="info-box-content">
+                       <h4>New Stock</h4>
+                       @*<span class="info-box-number">760</span>*@
+                   </div>
+                   <!-- /.info-box-content -->
+               </div>
+               <!-- /.info-box -->
+           </a>
+        </div>
+        <!-- /.col -->
+        <div class="col-md-3 col-sm-4 col-xs-10">
+            <a href="@Url.Action("Open", "RequestDetails")">
+                <div class="info-box">
+                    <span class="info-box-icon bg-yellow"><i class="fa fa-plus-square-o"></i></span>
+                    <div class="info-box-content">
+                        <h4>Recent Approvals</h4>
+                        @*<span class="info-box-number">2,000</span>*@
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </a>
+        </div>
+        <!-- /.col -->
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box" style="border-top-color: #3c8dbc">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Monthly Recap Report</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-7">
+                            <p class="text-center">
+                                <strong>Recent Activity</strong>
+                            </p>
+                            <div class="chart">
+                                <!-- Sales Chart Canvas -->
+                                <canvas id="salesChart" style="height: 180px;"></canvas>
+                            </div>
+                            <!-- /.chart-responsive -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-md-5">
+                            <p class="text-center">
+                                <strong></strong>
+                            </p>
+                            <!-- Info Boxes Style 2 -->
+                            <div class="info-box bg-yellow">
+                                <span class="info-box-icon"><i class="ion ion-ios-pricetag-outline"></i></span>
+
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Inventory</span>
+                                    <span class="info-box-number">5,200</span>
+
+                                    <div class="progress">
+                                        <div class="progress-bar" style="width: 50%"></div>
+                                    </div>
+                                    <span class="progress-description">
+                                        50% Increase in 30 Days
+                                    </span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                            <div class="info-box bg-green">
+                                <span class="info-box-icon"><i class="ion ion-ios-heart-outline"></i></span>
+
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Mentions</span>
+                                    <span class="info-box-number">92,050</span>
+
+                                    <div class="progress">
+                                        <div class="progress-bar" style="width: 20%"></div>
+                                    </div>
+                                    <span class="progress-description">
+                                        20% Increase in 30 Days
+                                    </span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                            <div class="info-box bg-red">
+                                <span class="info-box-icon"><i class="ion ion-ios-cloud-download-outline"></i></span>
+
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Downloads</span>
+                                    <span class="info-box-number">114,381</span>
+
+                                    <div class="progress">
+                                        <div class="progress-bar" style="width: 70%"></div>
+                                    </div>
+                                    <span class="progress-description">
+                                        70% Increase in 30 Days
+                                    </span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                            <div class="info-box bg-aqua">
+                                <span class="info-box-icon"><i class="ion-ios-chatbubble-outline"></i></span>
+
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Direct Messages</span>
+                                    <span class="info-box-number">163,921</span>
+
+                                    <div class="progress">
+                                        <div class="progress-bar" style="width: 40%"></div>
+                                    </div>
+                                    <span class="progress-description">
+                                        40% Increase in 30 Days
+                                    </span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- ./box-body -->
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-sm-3 col-xs-6">
+                            <div class="description-block border-right">
+                                <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 17%</span>
+                                <h5 class="description-header">$35,210.43</h5>
+                                <span class="description-text">TOTAL STOCK IN</span>
+                            </div>
+                            <!-- /.description-block -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-sm-3 col-xs-6">
+                            <div class="description-block border-right">
+                                <span class="description-percentage text-yellow"><i class="fa fa-caret-left"></i> 0%</span>
+                                <h5 class="description-header">$10,390.90</h5>
+                                <span class="description-text">TOTAL STOCK OUT</span>
+                            </div>
+                            <!-- /.description-block -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-sm-3 col-xs-6">
+                            <div class="description-block border-right">
+                                <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 20%</span>
+                                <h5 class="description-header">$24,813.53</h5>
+                                <span class="description-text">TOTAL STOCK BORROWED</span>
+                            </div>
+                            <!-- /.description-block -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-sm-3 col-xs-6">
+                            <div class="description-block">
+                                <span class="description-percentage text-red"><i class="fa fa-caret-down"></i> 18%</span>
+                                <h5 class="description-header">1200</h5>
+                                <span class="description-text">TOTAL STOCK RETURNED</span>
+                            </div>
+                            <!-- /.description-block -->
+                        </div>
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- /.box-footer -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
     </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
+    <!-- /.row -->
+
+</section>
+

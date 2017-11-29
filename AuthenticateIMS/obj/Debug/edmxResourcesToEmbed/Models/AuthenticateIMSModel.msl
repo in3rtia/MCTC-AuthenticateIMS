@@ -10,6 +10,16 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Approvals">
+      <EntityTypeMapping TypeName="StockManagementModel.Approval">
+        <MappingFragment StoreEntitySet="Approvals">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="request_ID" ColumnName="request_ID" />
+          <ScalarProperty Name="stock_code" ColumnName="stock_code" />
+          <ScalarProperty Name="mine_number" ColumnName="mine_number" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="CustomUsers">
       <EntityTypeMapping TypeName="StockManagementModel.CustomUser">
         <MappingFragment StoreEntitySet="CustomUsers">
@@ -38,6 +48,7 @@
     <EntitySetMapping Name="Movements">
       <EntityTypeMapping TypeName="StockManagementModel.Movement">
         <MappingFragment StoreEntitySet="Movements">
+          <ScalarProperty Name="comment" ColumnName="comment" />
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="movement_ID" ColumnName="movement_ID" />
           <ScalarProperty Name="stock_code" ColumnName="stock_code" />
@@ -68,6 +79,8 @@
           <ScalarProperty Name="unit_of_issue" ColumnName="unit_of_issue" />
           <ScalarProperty Name="approval_status" ColumnName="approval_status" />
           <ScalarProperty Name="approver" ColumnName="approver" />
+          <ScalarProperty Name="comment" ColumnName="comment" />
+          <ScalarProperty Name="expected_date" ColumnName="expected_date" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -168,6 +181,7 @@
           <ScalarProperty Name="stock_type" ColumnName="stock_type" />
           <ScalarProperty Name="expiry_date" ColumnName="expiry_date" />
           <ScalarProperty Name="category_ID" ColumnName="category_ID" />
+          <ScalarProperty Name="comment" ColumnName="comment" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -203,32 +217,26 @@
       <ResultMapping>
         <ComplexTypeMapping TypeName="StockManagementModel.getAllApprovedORDeniedRequests_Result">
           <ScalarProperty Name="request_ID" ColumnName="request_ID" />
-          <ScalarProperty Name="description_of_items" ColumnName="description_of_items" />
-          <ScalarProperty Name="quantity" ColumnName="quantity" />
-          <ScalarProperty Name="purpose_of_item" ColumnName="purpose_of_item" />
           <ScalarProperty Name="requesterFirstName" ColumnName="requesterFirstName" />
-          <ScalarProperty Name="requesterSurname" ColumnName="requesterSurname" />
+          <ScalarProperty Name="requesterLastName" ColumnName="requesterLastName" />
           <ScalarProperty Name="date_of_request" ColumnName="date_of_request" />
-          <ScalarProperty Name="status" ColumnName="status" />
-          <ScalarProperty Name="approverFName" ColumnName="approverFName" />
-          <ScalarProperty Name="approverLName" ColumnName="approverLName" />
+          <ScalarProperty Name="approval_status" ColumnName="approval_status" />
+          <ScalarProperty Name="approverFirstName" ColumnName="approverFirstName" />
+          <ScalarProperty Name="approverLastName" ColumnName="approverLastName" />
+          <ScalarProperty Name="number_of_requests" ColumnName="number_of_requests" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="getAllIssues" FunctionName="StockManagementModel.Store.getAllIssues">
       <ResultMapping>
         <ComplexTypeMapping TypeName="StockManagementModel.getAllIssues_Result">
-          <ScalarProperty Name="movement_ID" ColumnName="movement_ID" />
-          <ScalarProperty Name="description_of_items" ColumnName="description_of_items" />
           <ScalarProperty Name="request_ID" ColumnName="request_ID" />
-          <ScalarProperty Name="quantity_supplied" ColumnName="quantity_supplied" />
-          <ScalarProperty Name="IssuerFirstName" ColumnName="IssuerFirstName" />
-          <ScalarProperty Name="IssuerLastName" ColumnName="IssuerLastName" />
-          <ScalarProperty Name="ReceiverFNAme" ColumnName="ReceiverFNAme" />
-          <ScalarProperty Name="ReceiverLNAme" ColumnName="ReceiverLNAme" />
-          <ScalarProperty Name="status" ColumnName="status" />
-          <ScalarProperty Name="expected_return_date" ColumnName="expected_return_date" />
-          <ScalarProperty Name="return_date" ColumnName="return_date" />
+          <ScalarProperty Name="requesterFirstName" ColumnName="requesterFirstName" />
+          <ScalarProperty Name="requesterLastName" ColumnName="requesterLastName" />
+          <ScalarProperty Name="transaction_type_ID" ColumnName="transaction_type_ID" />
+          <ScalarProperty Name="issuerFirstName" ColumnName="issuerFirstName" />
+          <ScalarProperty Name="issuerLastName" ColumnName="issuerLastName" />
+          <ScalarProperty Name="number_of_requests" ColumnName="number_of_requests" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>

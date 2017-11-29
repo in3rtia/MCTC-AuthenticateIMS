@@ -28,6 +28,7 @@ namespace AuthenticateIMS.Models
         }
     
         public virtual DbSet<Approval_Status> Approval_Status { get; set; }
+        public virtual DbSet<Approval> Approvals { get; set; }
         public virtual DbSet<CustomUser> CustomUsers { get; set; }
         public virtual DbSet<Employee_Details> Employee_Details { get; set; }
         public virtual DbSet<Movement> Movements { get; set; }
@@ -123,7 +124,7 @@ namespace AuthenticateIMS.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<getStockShelves_Result>("getStockShelves");
         }
     
-        public virtual int insertIssue(string movement_ID, string stock_code, string request_ID, Nullable<int> quantity_supplied, string issued_by, string received_by, Nullable<System.DateTime> date_received, Nullable<int> return_status, Nullable<System.DateTime> expected_return_date, Nullable<System.DateTime> return_date)
+        public virtual int insertIssue(string movement_ID, string stock_code, string compartment_ID, string request_ID, Nullable<int> quantity_supplied, string issued_by, string received_by, Nullable<System.DateTime> date_received, Nullable<int> return_status, Nullable<System.DateTime> expected_return_date)
         {
             var movement_IDParameter = movement_ID != null ?
                 new ObjectParameter("movement_ID", movement_ID) :
@@ -132,6 +133,10 @@ namespace AuthenticateIMS.Models
             var stock_codeParameter = stock_code != null ?
                 new ObjectParameter("stock_code", stock_code) :
                 new ObjectParameter("stock_code", typeof(string));
+    
+            var compartment_IDParameter = compartment_ID != null ?
+                new ObjectParameter("compartment_ID", compartment_ID) :
+                new ObjectParameter("compartment_ID", typeof(string));
     
             var request_IDParameter = request_ID != null ?
                 new ObjectParameter("request_ID", request_ID) :
@@ -161,11 +166,7 @@ namespace AuthenticateIMS.Models
                 new ObjectParameter("expected_return_date", expected_return_date) :
                 new ObjectParameter("expected_return_date", typeof(System.DateTime));
     
-            var return_dateParameter = return_date.HasValue ?
-                new ObjectParameter("return_date", return_date) :
-                new ObjectParameter("return_date", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("insertIssue", movement_IDParameter, stock_codeParameter, request_IDParameter, quantity_suppliedParameter, issued_byParameter, received_byParameter, date_receivedParameter, return_statusParameter, expected_return_dateParameter, return_dateParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("insertIssue", movement_IDParameter, stock_codeParameter, compartment_IDParameter, request_IDParameter, quantity_suppliedParameter, issued_byParameter, received_byParameter, date_receivedParameter, return_statusParameter, expected_return_dateParameter);
         }
     
         public virtual int insertRequest(string request_ID, string stock_code, string compartment_ID, string purpose_of_item, string mine_number, string date_of_request, Nullable<int> quantity, string unit_of_issue, Nullable<int> approval_status, string approver)

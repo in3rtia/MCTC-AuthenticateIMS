@@ -14,14 +14,12 @@ namespace AuthenticateIMS.Models
     public partial class getAllApprovedORDeniedRequests_Result
     {
         public string request_ID { get; set; }
-        public string description_of_items { get; set; }
-        public int quantity { get; set; }
-        public string purpose_of_item { get; set; }
         public string requesterFirstName { get; set; }
-        public string requesterSurname { get; set; }
+        public string requesterLastName { get; set; }
         public System.DateTime date_of_request { get; set; }
-        public string status { get; set; }
-        public string approverFName { get; set; }
-        public string approverLName { get; set; }
+        public Nullable<int> approval_status { get; set; }
+        public string approverFirstName { get; set; }
+        public string approverLastName { get; set; }
+        public Nullable<int> number_of_requests { get; set; }
     }
 }

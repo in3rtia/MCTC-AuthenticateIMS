@@ -28,13 +28,10 @@
                     <thead>
                         <tr>
                             <th>Request ID</th>
-                            <th>Item Description</th>
-                            <th>Quantity</th>
-                            <th>Purpose</th>
+                            <th>No of Items</th>
                             <th>Requested By</th>
                             <th>Request Date</th>
-                            <th>Approval Status</th>
-                            <th>Approved By</th>
+                            <th>Approved by</th>
                             <th>Details</th>
                         </tr>
                     </thead>
@@ -44,14 +41,11 @@
                         {
                             <tr>
                                 <td>@item.request_ID</td>
-                                <td>@item.description_of_items</td>
-                                <td>@item.quantity</td>
-                                <td>@item.purpose_of_item</td>
-                                <td>@item.requesterFirstName @item.requesterSurname</td>
+                                <td>@item.number_of_requests items</td>
+                                <td>@item.requesterFirstName @item.requesterLastName</td>
                                 <td>@item.date_of_request</td>
-                                <td>@item.status</td>
-                                <td>@item.approverFName @item.approverLName</td>
-                                <td>@Html.ActionLink("View Details", "Create")</td>
+                                <td>@item.approverFirstName @item.approverLastName</td>
+                                <td>@Html.ActionLink("View Details", "ApprovedDetails", new { id = @item.request_ID })</td>
 
                             </tr>
                         }

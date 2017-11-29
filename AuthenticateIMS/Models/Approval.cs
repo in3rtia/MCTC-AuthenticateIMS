@@ -12,24 +12,13 @@ namespace AuthenticateIMS.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Request_Details
+    public partial class Approval
     {
         public int id { get; set; }
         public string request_ID { get; set; }
         public string stock_code { get; set; }
-        public string compartment_ID { get; set; }
-        public string purpose_of_item { get; set; }
         public string mine_number { get; set; }
-        public System.DateTime date_of_request { get; set; }
-        public int quantity { get; set; }
-        public string unit_of_issue { get; set; }
-        public Nullable<int> approval_status { get; set; }
-        public string approver { get; set; }
-        public string comment { get; set; }
-        public Nullable<System.DateTime> expected_date { get; set; }
     
-        public virtual Approval_Status Approval_Status1 { get; set; }
         public virtual Employee_Details Employee_Details { get; set; }
-        public virtual Stock_Details Stock_Details { get; set; }
     }
 }

@@ -29,7 +29,7 @@ namespace AuthenticateIMS.Models
         public string description_of_items { get; set; }
         public string unit_of_issue { get; set; }
         public Nullable<int> reorder_level { get; set; }
-        public Nullable<int> minimum_level { get; set; }
+        public int minimum_level { get; set; }
         public System.DateTime date_of_order { get; set; }
         public Nullable<System.DateTime> expiry_date { get; set; }
         public string stock_type { get; set; }

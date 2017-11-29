@@ -28,15 +28,11 @@
                 <table id="example2" class="table table-bordered table-hover table-striped">
                     <thead>
                         <tr>
-                            <th>Issue ID</th>
-                            <th>Item Description</th>
                             <th>Request ID</th>
-                            <th>Quantity</th>
-                            <th>Issued By</th>
+                            <th>No of Items</th>
                             <th>Received By</th>
-                            <th>Return Status</th>
-                            <th>Expected Date</th>
-                            <th>Return Date</th>
+                            <th>Issued By</th>
+                            <th>Details</th>
                         </tr>
                     </thead>
 
@@ -44,15 +40,11 @@
                         @foreach (var item in Model)
                         {
                             <tr>
-                                <td>@item.movement_ID</td>
-                                <td>@item.description_of_items</td>
                                 <td>@item.request_ID</td>
-                                <td>@item.quantity_supplied</td>
-                                <td>@item.IssuerFirstName @item.IssuerLastName</td>
-                                <td>@item.ReceiverFNAme @item.ReceiverLNAme</td>
-                                <td>@item.status</td>
-                                <td>@item.expected_return_date</td>
-                                <td>@item.return_date</td>
+                                <td>@item.number_of_requests items</td>
+                                <td>@item.requesterFirstName @item.requesterLastName</td>
+                                <td>@item.issuerFirstName @item.issuerLastName</td>
+                                <td>@Html.ActionLink("View Details", "Details", new { id = @item.request_ID })</td>
 
                             </tr>
                         }
@@ -70,3 +62,9 @@
     <!-- /.col -->
 </div>
 <!-- /.row -->
+
+<script>
+    $(document).ready(function () {
+        toastr.success("This is the index page");
+    });
+</script>

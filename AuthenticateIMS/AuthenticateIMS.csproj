@@ -211,6 +211,9 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Approval.cs">
+      <DependentUpon>AuthenticateIMSModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Approval_Status.cs">
       <DependentUpon>AuthenticateIMSModel.tt</DependentUpon>
     </Compile>
@@ -1166,6 +1169,7 @@
     <Content Include="Content\timepicker\bootstrap-timepicker.js" />
     <Content Include="Content\timepicker\bootstrap-timepicker.min.css" />
     <Content Include="Content\timepicker\bootstrap-timepicker.min.js" />
+    <Content Include="Content\toastr.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -2226,6 +2230,7 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <None Include="Scripts\_references.js" />
+    <Content Include="Scripts\toastr.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -2303,6 +2308,13 @@
     <Content Include="Views\StockWithdraw\Edit.cshtml" />
     <Content Include="Views\StockWithdraw\Index.cshtml" />
     <Content Include="Views\Issues\Index.cshtml" />
+    <Content Include="Views\RequestDetails\MyOpenRequestsDetails.cshtml" />
+    <Content Include="Views\RequestDetails\ApprovedRequestsDetails.cshtml" />
+    <Content Include="Views\RequestDetails\RejectedRequestsDetails.cshtml" />
+    <Content Include="Views\RequestDetails\OpenDetails.cshtml" />
+    <Content Include="Views\RequestDetails\ApprovedDetails.cshtml" />
+    <Content Include="Views\Issues\Details.cshtml" />
+    <Content Include="Views\Issues\_ConfirmReverse.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

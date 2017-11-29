@@ -23,8 +23,9 @@ namespace AuthenticateIMS.Models
         public System.DateTime date_of_withdraw { get; set; }
         public string compartment_ID { get; set; }
         public string stock_type { get; set; }
-        public System.DateTime expiry_date { get; set; }
+        public Nullable<System.DateTime> expiry_date { get; set; }
         public string category_ID { get; set; }
+        public string comment { get; set; }
     
         public virtual Employee_Details Employee_Details { get; set; }
         public virtual Shelf_Compartment Shelf_Compartment { get; set; }

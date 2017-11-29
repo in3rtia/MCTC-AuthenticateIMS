@@ -27,6 +27,7 @@ namespace AuthenticateIMS.Models
         public Nullable<int> return_status { get; set; }
         public Nullable<System.DateTime> expected_return_date { get; set; }
         public Nullable<System.DateTime> return_date { get; set; }
+        public string comment { get; set; }
     
         public virtual Employee_Details Employee_Details { get; set; }
         public virtual Employee_Details Employee_Details1 { get; set; }

@@ -1,0 +1,157 @@
+﻿@model IEnumerable<AuthenticateIMS.Models.Movement>
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="content-header">
+    <h1>
+        Request @ViewBag.requestId Details
+        <small>View</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-home"></i> Dashboard</a></li>
+        <li class="active">Request details</li>
+    </ol>
+</section>
+<br />
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box" style="border-top-color: #3c8dbc">
+            <div class="box-header">
+                <h3 class="box-title">Requester details</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-group">
+                        <label class="col-lg-3 col-md-3 col-sm-4 col-xs-6" for="firstName">First name:</label>
+                        <div class=" text-primary">
+                            <strong>@ViewBag.firstName</strong>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 col-md-3 col-sm-4 col-xs-6" for="lastName">Last name:</label>
+                        <div class=" text-primary">
+                            <strong>@ViewBag.surname</strong>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 col-md-3 col-sm-4 col-xs-6" for="position">Position:</label>
+                        <div class=" text-primary">
+                            <strong>@ViewBag.position</strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-group">
+                        <label class="col-lg-3 col-md-3 col-sm-4 col-xs-6" for="site">Site:</label>
+                        <div class="text-primary">
+                            <strong>@ViewBag.site</strong>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-lg-3 col-md-3 col-sm-4 col-xs-6" for="issuer">Issuer:</label>
+                        <div class=" text-primary">
+                            <strong>@ViewBag.issuer</strong>
+                        </div>
+                    </div>
+                    @*<div class="form-group">
+                        <label class="col-lg-3 col-md-3 col-sm-4 col-xs-6" for="status">Status:</label>
+                        <div class="text-primary">
+                            <strong>@ViewBag.status</strong>
+                        </div>
+                    </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box" style="border-top-color: #3c8dbc">
+            <div class="box-header">
+                <h3 class="box-title">Items requested</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="overflow-x: scroll">
+                <table id="example2" class="table table-bordered table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>Request ID</th>
+                            <th>Item Name</th>
+                            <th>Compartment</th>
+                            <th>Quantity</th>
+                            <th>Date Received</th>
+                            <th>Return Status</th>
+                            <th>Date Returned</th>
+                            <th>Reverse</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.request_ID</td>
+                                <td>@item.Stock_Details.description_of_items</td>
+                                <td>@item.compartment_ID</td>
+                                <td>@item.quantity_supplied @item.Stock_Details.unit_of_issue</td>
+                                <td>@item.date_received</td>
+                                <td>@item.Return_Status1.status</td>
+                                <td>@item.return_date</td>
+                                <td><button class="btn-link" data-toggle="modal" data-target="#reverseModal-@item.movement_ID">Reverse</button></td>
+                            </tr>
+                            
+                                <div class="modal fade" id="reverseModal-@item.movement_ID" role="dialog">
+                                    <div class="modal-dialog modal-md">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h4 class="modal-title">Confirmation</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-left: 30px; padding-right: 30px">
+                                                        @Html.Action("_ConfirmReverse", new { id = item.movement_ID})
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <a type="submit" href="@Url.Action("ReverseIssue", "Issues", new { id = item.movement_ID })" id="reverse"class="btn btn-danger">Yes</a>
+                                                <button type="button"  class="btn btn-primary" data-dismiss="modal">
+                                                    Close
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> <!-- end modal -->
+                           
+
+                        }
+                    </tbody>
+
+                    <tfoot>
+                        <tr></tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    $('#reverse').click(function () {
+        var comment = $('#commentArea').val(); // get the textbox value
+        var url = $(this).attr('href') + '?reqComment=' + comment; // build new url
+        location.href = url; // redirect
+        return false; // cancel default redirect
+    });
+
+</script>

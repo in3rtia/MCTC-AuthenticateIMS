@@ -37,6 +37,20 @@ namespace IMS.Controllers
             return View(stock_Withdraw);
         }
 
+        //GET: Stock category of specific stock
+        public string getCategory(string id)
+        {
+            var category = db.Stock_Details.Where(x => x.stock_code == id).Select(x => x.category_ID).SingleOrDefault();
+            return category;
+        }
+
+        //GET: Stock type
+        public string getStockType(string id)
+        {
+            var type = db.Stock_Details.Where(x => x.stock_code == id).Select(x => x.stock_type).SingleOrDefault();
+            return type;
+        }
+
         // GET: StockWithdraw/Create
         public ActionResult Create()
         {
@@ -45,32 +59,52 @@ namespace IMS.Controllers
             string withdrawId = "WTD" + rInt;
 
             ViewBag.withdrawId = withdrawId;
-            ViewBag.withdrawer = new SelectList(db.Employee_Details, "mine_number", "surname");
-            ViewBag.compartment_ID = new SelectList(db.Shelf_Compartment, "compartment_ID", "shelf_ID");
+            ViewBag.stock_type = new SelectList(db.Stock_Type, "type_ID", "description");
+            ViewBag.compartment_ID = new SelectList(db.Shelf_Compartment, "compartment_ID", "compartment_ID");
             ViewBag.category_ID = new SelectList(db.Stock_Category, "category_ID", "description");
-            ViewBag.stock_code = new SelectList(db.Stock_Details, "stock_code", "unit_of_withdraw");
+            ViewBag.stock_code = new SelectList(db.Stock_Details, "stock_code", "description_of_items");
             return View();
         }
 
         // POST: StockWithdraw/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,withdraw_ID,stock_code,quantity,unit_of_withdraw,withdrawer,date_of_withdraw,compartment_ID,stock_type,expiry_date,category_ID")] Stock_Withdraw stock_Withdraw)
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        public void CreateWithdraw(string withdraw_ID,string stock_code,string quantity,string unit_of_withdraw,string withdrawer, string compartment_ID, string date_of_withdraw, string stock_type, DateTime expiry_date, string category_ID, string comment)
         {
+            int quant = Int32.Parse(quantity);
+            DateTime withdrawDate = DateTime.Parse(date_of_withdraw);
+
+            var stock = db.Stock_Details.Where(x => x.stock_code == stock_code).FirstOrDefault();
+   
             if (ModelState.IsValid)
             {
-                db.Stock_Withdraw.Add(stock_Withdraw);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+                Stock_Withdraw withdraw = new Stock_Withdraw
+                {
+                    withdraw_ID = withdraw_ID,
+                    stock_code = stock_code,
+                    quantity = quant,
+                    unit_of_withdraw = unit_of_withdraw,
+                    withdrawer = withdrawer,
+                    compartment_ID = compartment_ID,
+                    date_of_withdraw = withdrawDate,
+                    stock_type = stock_type,
+                    expiry_date = expiry_date,
+                    category_ID = category_ID,
+                    comment = comment
+                };
 
-            ViewBag.withdrawer = new SelectList(db.Employee_Details, "mine_number", "surname", stock_Withdraw.withdrawer);
-            ViewBag.compartment_ID = new SelectList(db.Shelf_Compartment, "compartment_ID", "shelf_ID", stock_Withdraw.compartment_ID);
-            ViewBag.category_ID = new SelectList(db.Stock_Category, "category_ID", "description", stock_Withdraw.category_ID);
-            ViewBag.stock_code = new SelectList(db.Stock_Details, "stock_code", "unit_of_withdraw", stock_Withdraw.stock_code);
-            return View(stock_Withdraw);
+                //Save withdraw to database
+                db.Stock_Withdraw.Add(withdraw);
+                db.SaveChanges();
+
+                //Increase stock quantity in stock details table
+                stock.quantity_available += quant;
+                db.Entry(stock).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+      
         }
 
         // GET: StockWithdraw/Edit/5
