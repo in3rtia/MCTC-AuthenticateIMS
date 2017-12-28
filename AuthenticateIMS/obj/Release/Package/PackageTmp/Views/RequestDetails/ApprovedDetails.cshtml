@@ -1,0 +1,176 @@
+﻿@model IEnumerable<AuthenticateIMS.Models.Request_Details>
+
+@{
+    ViewBag.Title = "Approved details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="content-header">
+    <h1>
+        Request @ViewBag.requestId Details
+        <small>View</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-home"></i> Dashboard</a></li>
+        <li class="active">Request details</li>
+    </ol>
+</section>
+<br />
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box" style="border-top-color: #3c8dbc">
+            <div class="box-header">
+                <h3 class="box-title">Requester details</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-group">
+                        <label class="col-lg-3 col-md-3 col-sm-4 col-xs-6" for="firstName">First name:</label>
+                        <div class=" text-primary">
+                            <strong>@ViewBag.firstName</strong>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 col-md-3 col-sm-4 col-xs-6" for="lastName">Last name:</label>
+                        <div class=" text-primary">
+                            <strong>@ViewBag.surname</strong>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 col-md-3 col-sm-4 col-xs-6" for="position">Position:</label>
+                        <div class=" text-primary">
+                            <strong>@ViewBag.position</strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-group">
+                        <label class="col-lg-3 col-md-3 col-sm-4 col-xs-6" for="site">Site:</label>
+                        <div class=" text-primary">
+                            <strong>@ViewBag.site</strong>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-lg-3 col-md-3 col-sm-4 col-xs-6" for="dateOfRequest">Date of request:</label>
+                        <div class=" text-primary">
+                            <strong>@Convert.ToDateTime(@ViewBag.dateOfRequest).ToString("MMMM dd, yyyy")</strong>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 col-md-3 col-sm-4 col-xs-6" for="approver">Approver:</label>
+                        <div class="text-primary">
+                            <strong>@ViewBag.approverName</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box" style="border-top-color: #3c8dbc">
+            <div class="box-header">
+                <h3 class="box-title">Items requested</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <table id="example2" class="table table-bordered table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>Request ID</th>
+                            <th>Item Name</th>
+                            <th>Compartment</th>
+                            <th>Purpose of Item</th>
+                            <th>Quantity</th>
+                            @if (User.Identity.IsManagerApprover() || User.Identity.IsAdminUser())
+                            {
+                                <th>Issue</th>
+                            }
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                           
+                            <tr>
+                                <td>@item.request_ID</td>
+                                <td>@item.Stock_Details.description_of_items</td>
+                                <td>@item.compartment_ID</td>
+                                <td>@item.purpose_of_item</td>
+                                <td>@item.quantity @item.unit_of_issue</td>
+                                @if (User.Identity.IsManagerApprover() || User.Identity.IsAdminUser())
+                                {
+                                    <td><button type="button" class="issueBtn btn btn-sm btn-primary" id="create">Issue</button></td>
+                                }
+                                @*onclick="Create(@item.request_ID)"*@
+                            </tr>
+                        }
+                    </tbody>
+
+                    <tfoot>
+                        <tr></tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $(document).on("click","button.issueBtn", function () {
+            var td = $(this).parent();
+            var tr = td.parent();
+            var data = tr.find('td').eq(0).text();
+            alert(data)
+            $.ajax({
+
+                type: "POST",
+                url: "@Url.Action("CreateIssue", "Issues")",
+                data: { id: data },
+                success: function (data) {
+                    alert("Success!!!");
+                    tr.remove();
+                },
+                error: function (xhr, status, errorThrown) {
+                    alert(errorThrown);
+                }
+            });
+        });
+
+
+
+    });
+
+    function Create(value)
+    {
+        alert(value)
+        @*var td = $(this).parent();
+            var tr = td.parent();
+            var data = tr.find('td').eq(0).text();
+            //alert(id
+            $.ajax({
+
+                type: "POST",
+                url: "@Url.Action("CreateIssue", "Issues")",
+                data: { id: data },
+                success: function (data) {
+                    alert("Success!!!");
+                    tr.hide();
+                },
+                error: function (xhr, status, errorThrown) {
+                    alert(errorThrown);
+                }
+            });*@
+    }
+
+</script>

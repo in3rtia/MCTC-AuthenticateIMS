@@ -14,6 +14,13 @@ namespace AuthenticateIMS.Models
     
     public partial class Request_Details
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Request_Details()
+        {
+            this.Approvals = new HashSet<Approval>();
+            this.Rejects = new HashSet<Reject>();
+        }
+    
         public int id { get; set; }
         public string request_ID { get; set; }
         public string stock_code { get; set; }
@@ -27,9 +34,14 @@ namespace AuthenticateIMS.Models
         public string approver { get; set; }
         public string comment { get; set; }
         public Nullable<System.DateTime> expected_date { get; set; }
+        public Nullable<int> workflow_ID { get; set; }
     
         public virtual Approval_Status Approval_Status1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Approval> Approvals { get; set; }
         public virtual Employee_Details Employee_Details { get; set; }
         public virtual Stock_Details Stock_Details { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Reject> Rejects { get; set; }
     }
 }

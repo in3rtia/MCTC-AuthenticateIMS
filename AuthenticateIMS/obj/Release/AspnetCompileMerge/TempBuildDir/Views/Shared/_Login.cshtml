@@ -1,0 +1,111 @@
+﻿@using AuthenticateIMS.Extensions
+@{
+    var user = User.Identity;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - IMS</title>
+    @Scripts.Render("~/bundles/jquery")
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/javascript")
+
+
+
+    @*<style>
+        /*.bs-example {
+            height: 220px;
+        }
+
+        .centerlook {
+            padding-left: 400px;
+            font-weight: bold;
+            width: 1000px;
+        }
+
+        .error {
+            padding-left: 400px;
+            font-weight: bold;
+            width: 1000px;
+            color: red;
+        }
+
+        .loginbtn {
+            padding-left: 500px;
+        }*/
+
+        .panel_toolbox {
+            float: right;
+            padding-right: 5px;
+            min-width: 70px;
+        }
+
+        .x_title {
+            border-bottom: 2px solid #E6E9ED;
+            padding: 1px 5px 6px;
+            margin-bottom: 10px;
+        }
+
+        .panel_header {
+            float: left;
+            padding-left: 20px;
+            padding-top: 5px;
+        }*@
+    </style>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <link href="~/Content/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/ionicons/ionicons.min.css" rel="stylesheet" type="text/css" />
+    @*<link href="~/Styles/StyleSheet1.css" rel="stylesheet" />*@
+</head>
+<body class="hold-transition skin-blue fixed sidebar-mini"  bgcolor="#E6E6FA">>
+    <div class="">
+        <header class="main-header">
+            <!-- Logo -->
+            <a href="#" class="logo">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini"><b>IMS</b></span>
+                <span class="pull-left"><img src="~/Scripts/Custom/dist/img/Mopani.jpg" ID="Logo" Height="23px" Width="23px" alt="Mopani logo" class="img-rounded"></span>
+                <span class="logo-xs"><b>IMS</b></span>
+            </a>
+            <nav class="navbar navbar-static-top">
+                @*<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                </a>*@
+            </nav>
+        </header>
+
+        <div class="container-fluid">
+            @*<section class="content-header">
+                <h1>
+                   Log in
+                    <small>View</small>
+                </h1>
+               
+            </section>*@
+
+            <section class="content" style="min-height:798px;">
+                <div> @RenderBody()</div>
+            </section>
+        </div>
+
+        <footer class="main-footer">
+            <div class="pull-right hidden-xs">
+                <b>Designed by</b> Mopani
+            </div>
+            <p>&copy; @DateTime.Now.Year - All rights reserved</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/NS")
+    @Scripts.Render("~/bundles/bootstrap")
+   
+    
+    
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

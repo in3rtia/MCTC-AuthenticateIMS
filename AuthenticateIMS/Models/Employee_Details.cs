@@ -20,8 +20,10 @@ namespace AuthenticateIMS.Models
             this.Approvals = new HashSet<Approval>();
             this.Movements = new HashSet<Movement>();
             this.Movements1 = new HashSet<Movement>();
+            this.Receipts = new HashSet<Receipt>();
             this.Request_Details = new HashSet<Request_Details>();
             this.Stock_Withdraw = new HashSet<Stock_Withdraw>();
+            this.Rejects = new HashSet<Reject>();
         }
     
         public int id { get; set; }
@@ -29,6 +31,7 @@ namespace AuthenticateIMS.Models
         public string firstname { get; set; }
         public string other_names { get; set; }
         public string mine_number { get; set; }
+        public string email { get; set; }
         public string site { get; set; }
         public string department { get; set; }
         public string position { get; set; }
@@ -36,14 +39,19 @@ namespace AuthenticateIMS.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Approval> Approvals { get; set; }
+        public virtual Approver Approver { get; set; }
         public virtual CustomUser CustomUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Movement> Movements { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Movement> Movements1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Receipt> Receipts { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Request_Details> Request_Details { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Stock_Withdraw> Stock_Withdraw { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Reject> Rejects { get; set; }
     }
 }

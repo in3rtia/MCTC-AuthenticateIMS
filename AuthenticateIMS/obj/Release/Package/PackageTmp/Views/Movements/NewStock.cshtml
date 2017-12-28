@@ -1,0 +1,123 @@
+﻿@model IEnumerable<AuthenticateIMS.Models.Stock_Withdraw>
+
+@{
+    ViewBag.Title = "NewStock";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<section class="content-header">
+    <h1>
+        @ViewBag.Category
+        <h1>
+            New Stock
+            <small>View</small>
+        </h1>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-home"></i> Dashboard</a></li>
+        <li class="active"></li>
+    </ol>
+</section>
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box" style="border-top-color: #3c8dbc">
+            <div class="box-header">
+                <h3 class="box-title"></h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="overflow-x: scroll">
+                <table class="table table-bordered table-hover table-striped">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.id)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.quantity)
+                        </th>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.stock_code)
+                        </td>
+                        <th>
+                            @Html.DisplayNameFor(model => model.unit_of_withdraw)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.date_of_withdraw)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.stock_type)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.expiry_date)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Employee_Details.surname)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Shelf_Compartment.shelf_ID)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Stock_Category.description)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Stock_Details.unit_of_withdraw)
+                        </th>
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.quantity)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.stock_code)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.unit_of_withdraw)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.date_of_withdraw)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.stock_type)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.expiry_date)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Employee_Details.surname)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Shelf_Compartment.shelf_ID)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Stock_Category.description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Stock_Details.unit_of_withdraw)
+                            </td>
+                            @*<td>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.withdraw_ID }) |
+                                @Html.ActionLink("Details", "Details", new { id = item.withdraw_ID }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.withdraw_ID })
+                            </td>*@
+                        </tr>
+                    }
+
+                </table>
+            
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+    <!-- /.col -->
+</div>
+<!-- /.row -->

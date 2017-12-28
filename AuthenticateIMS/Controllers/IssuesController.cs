@@ -12,23 +12,39 @@ namespace IMS.Controllers
     public class IssuesController : Controller
     {
 
-        StockManagementEntities db = new StockManagementEntities();
+        StockManagementEntities db;
+
+        public IssuesController()
+        {
+            db = new StockManagementEntities();
+
+        }
         // GET: Issues
         public ActionResult Index()
         {
-            var model = db.getAllIssues();
-            return View(model);
+            var user = User.Identity;
+            
+            if (!user.IsNormalUser())
+            {
+                var model = db.getAllIssues();
+                return View(model);
+            }
+           
+            return View("UnAuthorizedError");
+            
         }
 
+        
         [HttpPost]
-        public void CreateIssue(string id)
+        public void CreateIssue(int id)
         {
             Random r = new Random();
             int rInt = r.Next(0, 10000);
             int returnStatus = 4;
+            int workflowId = 8;
 
-            var request = db.Request_Details.Include(x => x.Stock_Details).Where(x => (x.request_ID == id && x.approval_status == 2)).FirstOrDefault();
-            var request_Details = db.Request_Details.Include(x => x.Stock_Details).Include(x => x.Employee_Details).Where(x => (x.request_ID == id && x.approval_status == 2));
+            var request = db.Request_Details.Include(x => x.Stock_Details).Where(x => x.id == id).SingleOrDefault();
+           // var request_Details = db.Request_Details.Include(x => x.Stock_Details).Include(x => x.Employee_Details).Where(x => (x.request_ID == id && x.approval_status == 2));
 
             string movement_ID = "ISS" + rInt;
             string request_ID = request.request_ID;
@@ -41,7 +57,7 @@ namespace IMS.Controllers
             DateTime date = DateTime.Now;
             //DateTime? return_date = null;
 
-            if (request.Stock_Details.stock_type == "Ret" && ModelState.IsValid)
+            if (request.Stock_Details.stock_type == "Retn" && ModelState.IsValid)
             {
                 returnStatus = 0;
                 DateTime? expected = request.expected_date;
@@ -81,18 +97,9 @@ namespace IMS.Controllers
 
             //Change approval status to issued
             request.approval_status = 3;
+            request.workflow_ID = workflowId;
             db.Entry(request).State = EntityState.Modified;
             db.SaveChanges();
-
-            //Redirect after operation is successful
-            //if (request_Details == null)
-            //{
-            //    Approved();
-            //}
-            //else
-            //{
-            //    ApprovedDetails(id);
-            //}
 
         }
 
@@ -102,47 +109,57 @@ namespace IMS.Controllers
             return PartialView(reverse);
         }
 
-        public ActionResult Approved()
+        public ActionResult UserCollections(string mineNumber)
         {
-            return View("Approved", "RequestDetails");
-        }
+            var user = User.Identity;
 
-        public ActionResult ApprovedDetails(string def)
-        {
-            return View("ApprovedDetails", "RequestDetails", new { id = def});
+            if (user.IsNormalUser() || user.IsSupervisorApprover())
+            {
+                if (mineNumber == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                var model = db.getUserCollections(mineNumber);
+                return View(model);
+            }
+
+            return View("UnAuthorizedError");
         }
 
         public ActionResult Details(string id)
         {
-            string check = "issue";
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            var issues = db.Movements.Where(x => (x.request_ID == id && x.transaction_type_ID == check));
+            var user = User.Identity;
+            var today = Convert.ToDateTime(DateTime.Today).ToString("MMMM dd, yyyy");
 
-            var content = db.Movements.Include(x => x.Stock_Details).Include(x => x.Employee_Details).Include(x => x.Employee_Details1).Include(x => x.Return_Status1).Where(x => (x.request_ID == id && x.transaction_type_ID == check)).FirstOrDefault();
+            
+                string check = "issue";
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                var issues = db.Movements.Include(x => x.Stock_Details).Where(x => (x.request_ID == id && x.transaction_type_ID == check));
 
-            ViewBag.requestId = content.request_ID;
-            ViewBag.firstName = content.Employee_Details.firstname;
-            ViewBag.surname = content.Employee_Details.surname;
-            ViewBag.position = content.Employee_Details.position;
-            ViewBag.site = content.Employee_Details.site;
-            ViewBag.issuer = content.Employee_Details1.firstname + " " + content.Employee_Details1.surname;
+                var content = db.Movements.Include(x => x.Stock_Details).Include(x => x.Employee_Details).Include(x => x.Employee_Details1).Include(x => x.Return_Status1).Where(x => (x.request_ID == id && x.transaction_type_ID == check)).FirstOrDefault();
 
-            if (content == null)
-            {
-                return HttpNotFound();
-            }
-            //if (approver.mine_number == null)
-            //{
-            //    ViewBag.approverName = "Currently not available";
-            //}
-            //else
-            //{
-            //    ViewBag.approverName = approver.Employee_Details.firstname + " " + approver.Employee_Details.surname;
-            //}
-            return View(issues);
+                ViewBag.requestId = content.request_ID;
+                ViewBag.firstName = content.Employee_Details.firstname;
+                ViewBag.surname = content.Employee_Details.surname;
+                ViewBag.position = content.Employee_Details.position;
+                ViewBag.site = content.Employee_Details.site;
+                ViewBag.issuer = content.Employee_Details1.firstname + " " + content.Employee_Details1.surname;
+                ViewBag.dateToday = today;
+
+                if (content == null)
+                {
+                    return HttpNotFound();
+                }
+               
+                return View(issues);
+            
+
+            //return View("UnAuthorizedError");
+
         }
 
         //POST: To reverse an issue
@@ -180,6 +197,29 @@ namespace IMS.Controllers
 
 
             return View("Index");
+        }
+
+        //Post: Return an item
+        public void ReturnItem(string id, string returnComment)
+        {
+            var stock = db.Movements.Find(id);
+            DateTime today = DateTime.Today;
+
+            if(today > stock.expected_return_date)
+            {
+                stock.return_status = 2;
+                stock.comment = returnComment;
+                db.Entry(stock).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+            else
+            {
+                stock.return_status = 1;
+                stock.comment = returnComment;
+                db.Entry(stock).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+           
         }
     } 
 

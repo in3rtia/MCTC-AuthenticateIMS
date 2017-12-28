@@ -29,32 +29,32 @@
             <div class="box-body">
                 <div class="form-group ">
                     <label for="requester">Mine number</label>
-                    <input type="text" class="form-control" id="requester" placeholder="Mine Number" value="@User.Identity.GetMineNumber()">
+                    <input type="text" class="form-control" id="requester" placeholder="Mine Number" value="@User.Identity.GetMineNumber()" readonly>
                     @Html.ValidationMessageFor(model => model.mine_number, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group ">
                     <label for="name">First name</label>
-                    <input type="text" class="form-control" id="name" placeholder="Name of requester" value="">
+                    <input type="text" class="form-control" id="name" placeholder="Name of requester" value="@ViewBag.firstName" readonly>
                     @*@Html.ValidationMessageFor(model => model., "", new { @class = "text-danger" })*@
                 </div>
                 <div class="form-group ">
                     <label for="name">Last Name</label>
-                    <input type="text" class="form-control" id="name" placeholder="Name of requester" value="">
+                    <input type="text" class="form-control" id="name" placeholder="Name of requester" value="@ViewBag.lastName" readonly>
                     @*@Html.ValidationMessageFor(model => model., "", new { @class = "text-danger" })*@
                 </div>
                 <div class="form-group ">
                     <label for="position">Position</label>
-                    <input type="text" class="form-control" id="position" placeholder="Position" value="">
+                    <input type="text" class="form-control" id="position" placeholder="Position" value="@ViewBag.position" readonly>
                     @*@Html.ValidationMessageFor(model => model., "", new { @class = "text-danger" })*@
                 </div>
                 <div class="form-group">
                     <label for="department">Department</label>
-                    <input type="text" class="form-control" id="department" placeholder="Department" value="">
+                    <input type="text" class="form-control" id="department" placeholder="Department" value="@ViewBag.department" readonly>
                     @*@Html.ValidationMessageFor(model => model., "", new { @class = "text-danger" })*@
                 </div>
                 <div class="form-group ">
                     <label for="site">Site</label>
-                    <input type="text" class="form-control" id="Site" placeholder="Site" value="">
+                    <input type="text" class="form-control" id="Site" placeholder="Site" value="@ViewBag.site" readonly>
                     @*@Html.ValidationMessageFor(model => model., "", new { @class = "text-danger" })*@
                 </div>
             </div>
@@ -94,7 +94,7 @@
                 </div>
                 <div class="form-group ">
                     <label for="units">Units</label>
-                    <input type="text" class="form-control" id="units" >
+                    <input type="text" class="form-control" id="units" readonly>
                     @Html.ValidationMessageFor(model => model.unit_of_issue, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group ">
@@ -104,7 +104,12 @@
 
                 <div class="form-group">
                     <label for="compartment">Shelf compartment</label>
-                    <input type="text" class="form-control" id="compartment">
+                    <input type="text" class="form-control" id="compartment" readonly>
+                </div>
+
+                <div class="form-group" hidden>
+                    <label for="workflowId">Workflow Id</label>
+                    <input type="int" class="form-control" id="workflowId" />
                 </div>
 
             </div>
@@ -126,9 +131,9 @@
             <div class="box-body">
                 <form class="form-horizontal">
                     <div class="form-group">
-                        <label for="purpose" class="col-sm-2 col-md-2 col-lg-2 control-label">Reason for request</label>
-                        <div class="col-sm-10 col-md-10 col-lg-10">
-                            <textarea class="form-control" id="purpose" rows="6"></textarea>
+                        <!--<label for="purpose" class="col-sm-2 col-md-2 col-lg-2 control-label">Reason for request</label>-->
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                            <textarea class="form-control" id="purpose" rows="6" placeholder="Enter your purpose for this request here"></textarea>
                             @Html.ValidationMessageFor(model => model.purpose_of_item, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -160,6 +165,7 @@
                             <th>Purpose</th>
                             <th>Request Date</th>
                             <th>Remove</th>
+                            <th style="display: none"></th>
                             <th style="display: none"></th>
                             <th style="display: none"></th>
                             <th style="display: none"></th>
@@ -266,15 +272,15 @@
         }
     </script>
     <script>
-        function BindTable(itemName, quantity, purpose, requestDate, requestId, compartmentId, requester, unit, approvalStatus, approver) {
+        function BindTable(itemName, quantity, purpose, requestDate, requestId, compartmentId, requester, unit, approvalStatus, approver, expectedDate) {
             $("#tableBasket > tbody").append("<tr><td>" +
                 itemName +
                 "</td><td>" + quantity + "</td><td>" + purpose + "</td><td>" + requestDate +
-                "</td><td><a class='btn text-danger'><i class='fa fa-trash-o'>" +
-                "</i></a></td><td style = 'display: none'>" + requestId + "</td><td style = 'display: none'>" +
+                "</td><td><button class='btn delete text-danger'><i class='fa fa-trash-o'>" +
+                "</i></button></td><td style = 'display: none'>" + requestId + "</td><td style = 'display: none'>" +
                 compartmentId + "</td><td style = 'display: none'>" + requester + "</td><td style = 'display: none'>" +
                 unit + "</td><td style = 'display: none'>" + approvalStatus + "</td><td style = 'display: none'>" +
-                approver + "</td></tr>" );
+                approver + "</td><td style = 'display: none'>" + expectedDate + "</td></tr>");
         }
     </script>
     <script>
@@ -296,11 +302,12 @@
             var compartmentId = $("#compartment").val()
             var requester = $("#requester").val();
             var unit = $("#units").val();
-            var approvalStatus = "0";
+            var approvalStatus = "1";
             var approver = "";
+            var expectedDate = $("#dateOfReturn").val();
             //var del = "<i class='fa fa-trash-o'></i>";
             if (validateInput() == true) {
-                BindTable(itemName, quantity, purpose, requestDate, requestId, compartmentId, requester, unit, approvalStatus, approver);
+                BindTable(itemName, quantity, purpose, requestDate, requestId, compartmentId, requester, unit, approvalStatus, approver, expectedDate);
                 $("#table").show(function () {
                     $("#quantity").val("");
                     $("#purpose").val("");
@@ -316,7 +323,7 @@
             try {
                 var table = document.getElementById('tableBasket'),
                     rows = table.getElementsByTagName('tr'),
-                    i, j, cells, itemName, quantity, purpose, requestDate, requestId, compartmentId, requester, unit, approvalStatus, approver;
+                    i, j, cells, itemName, quantity, purpose, requestDate, requestId, compartmentId, requester, unit, approvalStatus, approver, expectedDate;
 
                 for (i = 0, j = rows.length; i < j; ++i) {
                     cells = rows[i].getElementsByTagName('td');
@@ -333,11 +340,12 @@
                     requester = cells[7].innerHTML;
                     unit = cells[8].innerHTML;
                     approvalStatus = cells[9].innerHTML;
-                    approver = cells[10].innerHTML;
+                    //approver = cells[10].innerHTML;
+                    expectedDate = cells[11].innerHTML;
 
                     $.ajax({
                         type: "POST",
-                        url: "@Url.Action("createRequest", "RequestDetails")",
+                        url: "@Url.Action("CreateRequest", "RequestDetails")",
                         data: {
                             request_ID: requestId,
                             stock_code: itemName,
@@ -348,17 +356,17 @@
                             quant: quantity,
                             unit_of_issue: unit,
                             status: approvalStatus,
-                            approver: approver
+                            expected_date: expectedDate
                         },
                         success: function () {
                             //alert("Success!!!");
                         },
-                        error: function () {
-                            alert("Something went Wrong.");
+                        error: function (xhr, status, errorThrown) {
+                            alert(errorThrown);
                         }
                     });
 
-                    //alert(requestId + " " + itemName + " " + compartmentId + " " + quantity + " " + unit + " " + purpose + " " + requestDate + " " + requester + " " + approvalStatus + " " + approver);
+                    //alert(requestId + " " + itemName + " " + compartmentId + " " + quantity + " " + unit + " " + purpose + " " + requestDate + " " + requester + " " + approvalStatus + " " + approver + " " + expectedDate);
                 }
     
                 jQuery(document).ajaxSuccess(function (event, xhr, settings) {
@@ -373,4 +381,14 @@
                 alert(err.message);
             }
         }
+
+        $(document).ready(function () {
+            $(document).on("click", "button.delete", function () {
+                var td = $(this).parent();
+                var tr = td.parent();
+
+                tr.remove();
+                //alert(tr);
+            });
+        });
     </script>

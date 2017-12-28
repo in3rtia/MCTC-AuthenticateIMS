@@ -31,5 +31,6 @@ namespace AuthenticateIMS.Models
         public virtual Shelf_Compartment Shelf_Compartment { get; set; }
         public virtual Stock_Category Stock_Category { get; set; }
         public virtual Stock_Details Stock_Details { get; set; }
+        public virtual Stock_Type Stock_Type1 { get; set; }
     }
 }

@@ -13,6 +13,7 @@ namespace AuthenticateIMS.Models
     
     public partial class getAvailableStock_Result
     {
+        public int id { get; set; }
         public string stock_code { get; set; }
         public string description_of_items { get; set; }
         public int quantity_available { get; set; }

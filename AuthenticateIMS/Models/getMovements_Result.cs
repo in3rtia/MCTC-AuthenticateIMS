@@ -13,6 +13,7 @@ namespace AuthenticateIMS.Models
     
     public partial class getMovements_Result
     {
+        public int id { get; set; }
         public string movement_ID { get; set; }
         public string description_of_items { get; set; }
         public string request_ID { get; set; }
@@ -22,6 +23,7 @@ namespace AuthenticateIMS.Models
         public string ReceiverFNAme { get; set; }
         public string ReceiverLNAme { get; set; }
         public string status { get; set; }
+        public System.DateTime date_received { get; set; }
         public Nullable<System.DateTime> expected_return_date { get; set; }
         public Nullable<System.DateTime> return_date { get; set; }
     }

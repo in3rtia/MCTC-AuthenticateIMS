@@ -1,0 +1,162 @@
+﻿@model AuthenticateIMS.Models.Stock_Details
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="content-header">
+    <h1>
+        Add New Stock
+        <small>View</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-home"></i> Dashboard</a></li>
+        <li class="active">Add new stock</li>
+    </ol>
+</section>
+<br />
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+
+    <div class="box" style="border-top-color: #3c8dbc">
+        <div class="box-header">
+            <h3 class="box-title">Stock details</h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+            <div class="col-xs-12 col-sm-10 col-md-6 col-lg-6">
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <label for="stock_code">Stock code</label>
+
+                    @Html.EditorFor(model => model.stock_code, new { htmlAttributes = new { @class = "form-control", @name = "stock_code", @type = "text" } })
+                    @Html.ValidationMessageFor(model => model.stock_code, "", new { @class = "text-danger" })
+
+                </div>
+
+                <div class="form-group">
+                    <label for="quantity">Quantity</label>
+
+                    @Html.EditorFor(model => model.quantity_available, new { htmlAttributes = new { @class = "form-control", @name = "quantity", @type = "number" } })
+                    @Html.ValidationMessageFor(model => model.quantity_available, "", new { @class = "text-danger" })
+
+                </div>
+
+                <div class="form-group">
+                    <label for="unit_of_withdraw"> Unit of withdraw</label>
+
+                    @Html.EditorFor(model => model.unit_of_withdraw, new { htmlAttributes = new { @class = "form-control", @name = "unit_of_withdraw", @type = "text" } })
+                    @Html.ValidationMessageFor(model => model.unit_of_withdraw, "", new { @class = "text-danger" })
+
+                </div>
+
+                <div class="form-group">
+                    <label for=" description_of_items">Stock Name</label>
+
+                    @Html.EditorFor(model => model.description_of_items, new { htmlAttributes = new { @class = "form-control", @name = "description_of_items", @type = "text" } })
+                    @Html.ValidationMessageFor(model => model.description_of_items, "", new { @class = "text-danger" })
+
+                </div>
+
+                <div class="form-group">
+                    <label for="unit_of_issue">Unit of issue</label>
+
+                    @Html.EditorFor(model => model.unit_of_issue, new { htmlAttributes = new { @class = "form-control", @name = "unit_of_issue", @type = "text" } })
+                    @Html.ValidationMessageFor(model => model.unit_of_issue, "", new { @class = "text-danger" })
+
+                </div>
+
+                <div class="form-group">
+                    <label for="reorder_level">Reorder level</label>
+
+                    @Html.EditorFor(model => model.reorder_level, new { htmlAttributes = new { @class = "form-control", @name = "reorder_level", @type = "number" } })
+                    @Html.ValidationMessageFor(model => model.reorder_level, "", new { @class = "text-danger" })
+
+                </div>
+
+            </div>
+            <!-- ./col-xs-12 -->
+
+
+            <div class="col-xs-12 col-sm-10 col-md-6 col-lg-6">
+                <!-- /.box-header -->
+                <hr />
+                <div class="form-group">
+                    <label for="minimum_level">Minimum level</label>
+
+                    @Html.EditorFor(model => model.minimum_level, new { htmlAttributes = new { @class = "form-control", @name = "minimum_level", @type = "number" } })
+                    @Html.ValidationMessageFor(model => model.minimum_level, "", new { @class = "text-danger" })
+
+                </div>
+
+                <div class="form-group">
+                    <label for="date_of_order">Date of order</label>
+
+                    @Html.EditorFor(model => model.date_of_order, new { htmlAttributes = new { @class = "form-control", @name = "date_of_order", @type = "date" } })
+                    @Html.ValidationMessageFor(model => model.date_of_order, "", new { @class = "text-danger" })
+
+                </div>
+
+                <div class="form-group">
+                    <label for="expiry_date">Expiry date</label>
+
+                    @Html.EditorFor(model => model.expiry_date, new { htmlAttributes = new { @class = "form-control", @name = "expiry_date", @type = "date" } })
+                    @Html.ValidationMessageFor(model => model.expiry_date, "", new { @class = "text-danger" })
+
+                </div>
+
+                <div class="form-group">
+                    <label for="stock_type">Stock type</label>
+
+                    @Html.DropDownList("stock_type", null, htmlAttributes: new { @class = "form-control", @name = "stock_type", @type = "text" })
+                    @Html.ValidationMessageFor(model => model.stock_type, "", new { @class = "text-danger" })
+
+                </div>
+
+                <div class="form-group">
+                    <label for="compartment_ID">Compartment</label>
+
+                    @Html.DropDownList("compartment_ID", null, htmlAttributes: new { @class = "form-control select2", @name = "compartment_ID", @type = "text" })
+                    @Html.ValidationMessageFor(model => model.compartment_ID, "", new { @class = "text-danger" })
+
+                </div>
+
+                <div class="form-group">
+                    <label for="category_ID">Stock category</label>
+
+                    @Html.DropDownList("category_ID", null, htmlAttributes: new { @class = "form-control", @name = "category_ID", @type = "text" })
+                    @Html.ValidationMessageFor(model => model.category_ID, "", new { @class = "text-danger" })
+
+                </div>
+
+                <div class="form-group" hidden>
+                    <label for="availability">Availabity</label>
+                    <div class="col-md-10">
+                       <input class="form-control" name="availability" value="1" id="availability" />
+                        @Html.ValidationMessageFor(model => model.availability, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+            </div>
+            <!-- ./col-xs-12 col-sm-12 col-md-12 -->
+            <!--<div class="row">-->
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create" class="btn btn-primary pull-right" />
+                    </div>
+                </div>
+            -<!--</div>-->
+        </div>
+        <!-- ./box-body -->
+    </div>
+    <!-- ./box -->
+
+
+
+
+}

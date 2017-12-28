@@ -53,7 +53,10 @@
                                 <td>@item.stock_type</td>
                                 <td>@item.compartment_ID</td>
                                 <td>@item.status</td>
-                                <td>@Html.ActionLink("Request", "") | @Html.ActionLink("Edit", "", new { id = @item.stock_code })</td>
+                                <td>
+                                    @*@Html.ActionLink("Request", "") | @Html.ActionLink("Edit", "", new { id = @item.stock_code })*@
+                                    <a href="#" class="btn btn-xs btn-primary">Edit</a>
+                                </td>
                             </tr>
                         }
                     </tbody>

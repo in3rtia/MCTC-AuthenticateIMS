@@ -41,11 +41,11 @@
                         {
                             <tr>
                                 <td>@item.request_ID</td>
-                                <td>@item.number_of_requests items</td>
+                                <td>@item.number_of_requests</td>
                                 <td>@item.requesterFirstName @item.requesterLastName</td>
-                                <td>@item.date_of_request</td>
+                                <td>@Convert.ToDateTime(@item.date_of_request).ToString("MMMM dd, yyyy")</td>
                                 <td>@item.approverFirstName @item.approverLastName</td>
-                                <td>@Html.ActionLink("View Details", "ApprovedDetails", new { id = @item.request_ID })</td>
+                                <td>@Html.ActionLink("View Details", "ApprovedDetails", new { id = @item.request_ID, @class = "btn btn-xs btn-primary" })</td>
 
                             </tr>
                         }

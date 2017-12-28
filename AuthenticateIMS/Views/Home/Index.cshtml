@@ -24,11 +24,11 @@
 <section class="content">
     <div class="row">
         <div class="col-md-3 col-sm-4 col-xs-12">
-            <a href="@Url.Action("Open", "RequestDetails")">
+            <a href="@Url.Action("RecentRequests", "RequestDetails")")">
                 <div class="info-box">
                     <span class="info-box-icon bg-aqua"><i class="fa fa-bell"></i></span>
                     <div class="info-box-content">
-                        <h4>Frequent Requests</h4>
+                        <h4>Recent Requests</h4>
                         @*<span class="info-box-number">90<small>%</small></span>*@
                     </div>
                     <!-- /.info-box-content -->
@@ -38,7 +38,7 @@
         </div>
         <!-- /.col -->
         <div class="col-md-3 col-sm-4 col-xs-10">
-            <a href="@Url.Action("Open", "RequestDetails")">
+            <a href="@Url.Action("Shortages", "StockDetails")">
                 <div class="info-box">
                     <span class="info-box-icon bg-red"><i class="fa fa-star-half-full"></i></span>
                     <div class="info-box-content">
@@ -54,7 +54,7 @@
         <!-- fix for small devices only -->
         @*<div class="clearfix visible-sm-block"></div>*@
         <div class="col-md-3 col-sm-4 col-xs-10">
-           <a href="@Url.Action("Open", "RequestDetails")">
+           <a href="@Url.Action("NewStock", "Movements")">
                <div class="info-box">
                    <span class="info-box-icon bg-green"><i class="fa fa-star"></i></span>
                    <div class="info-box-content">
@@ -68,7 +68,7 @@
         </div>
         <!-- /.col -->
         <div class="col-md-3 col-sm-4 col-xs-10">
-            <a href="@Url.Action("Open", "RequestDetails")">
+            <a href="@Url.Action("RecentApprovals", "RequestDetails")">
                 <div class="info-box">
                     <span class="info-box-icon bg-yellow"><i class="fa fa-plus-square-o"></i></span>
                     <div class="info-box-content">
@@ -85,97 +85,69 @@
     <!-- /.row -->
     <div class="row">
         <div class="col-md-12">
-            <div class="box" style="border-top-color: #3c8dbc">
+            <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Monthly Recap Report</h3>
+                    <h3 class="box-title">Current Stock Levels</h3>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
                     <div class="row">
                         <div class="col-md-7">
-                            <p class="text-center">
-                                <strong>Recent Activity</strong>
-                            </p>
                             <div class="chart">
                                 <!-- Sales Chart Canvas -->
-                                <canvas id="salesChart" style="height: 180px;"></canvas>
+                                <canvas id="myChart" width="400" height="250px" ></canvas>
                             </div>
                             <!-- /.chart-responsive -->
                         </div>
                         <!-- /.col -->
                         <div class="col-md-5">
-                            <p class="text-center">
-                                <strong></strong>
-                            </p>
-                            <!-- Info Boxes Style 2 -->
-                            <div class="info-box bg-yellow">
+                            <div class="info-box bg-aqua">
                                 <span class="info-box-icon"><i class="ion ion-ios-pricetag-outline"></i></span>
-
                                 <div class="info-box-content">
-                                    <span class="info-box-text">Inventory</span>
-                                    <span class="info-box-number">5,200</span>
-
+                                    <span class="info-box-text">Pending Approval</span>
+                                    @*<span class="info-box-number">5,200</span>*@
                                     <div class="progress">
                                         <div class="progress-bar" style="width: 50%"></div>
                                     </div>
-                                    <span class="progress-description">
-                                        50% Increase in 30 Days
-                                    </span>
+                                    @*<span class="progress-description">50% Increase in 30 Days</span>*@
                                 </div>
-                                <!-- /.info-box-content -->
                             </div>
-                            <!-- /.info-box -->
-                            <div class="info-box bg-green">
+                            <div class="info-box bg-red">
                                 <span class="info-box-icon"><i class="ion ion-ios-heart-outline"></i></span>
-
                                 <div class="info-box-content">
-                                    <span class="info-box-text">Mentions</span>
-                                    <span class="info-box-number">92,050</span>
-
+                                    <span class="info-box-text">Items Returned</span>
+                                    @*<span class="info-box-number">92,050</span>*@
                                     <div class="progress">
                                         <div class="progress-bar" style="width: 20%"></div>
                                     </div>
-                                    <span class="progress-description">
-                                        20% Increase in 30 Days
-                                    </span>
+                                    @*<span class="progress-description">
+                    20% Increase in 30 Days
+                </span>*@
                                 </div>
                                 <!-- /.info-box-content -->
                             </div>
-                            <!-- /.info-box -->
-                            <div class="info-box bg-red">
+                            <div class="info-box bg-green-gradient">
                                 <span class="info-box-icon"><i class="ion ion-ios-cloud-download-outline"></i></span>
-
                                 <div class="info-box-content">
-                                    <span class="info-box-text">Downloads</span>
-                                    <span class="info-box-number">114,381</span>
-
+                                    <span class="info-box-text">Reversals</span>
+                                    @*<span class="info-box-number">114,381</span>*@
                                     <div class="progress">
                                         <div class="progress-bar" style="width: 70%"></div>
                                     </div>
-                                    <span class="progress-description">
-                                        70% Increase in 30 Days
-                                    </span>
+                                    @*<span class="progress-description">70% Increase in 30 Days</span>*@
                                 </div>
-                                <!-- /.info-box-content -->
                             </div>
-                            <!-- /.info-box -->
-                            <div class="info-box bg-aqua">
+                            <div class="info-box bg-yellow-gradient">
                                 <span class="info-box-icon"><i class="ion-ios-chatbubble-outline"></i></span>
-
                                 <div class="info-box-content">
-                                    <span class="info-box-text">Direct Messages</span>
-                                    <span class="info-box-number">163,921</span>
-
+                                    <span class="info-box-text">Monthly Withdrawals</span>
+                                    @*<span class="info-box-number">163,921</span>*@
                                     <div class="progress">
                                         <div class="progress-bar" style="width: 40%"></div>
                                     </div>
-                                    <span class="progress-description">
-                                        40% Increase in 30 Days
-                                    </span>
+                                    @*<span class="progress-description">40% Increase in 30 Days</span>*@
                                 </div>
-                                <!-- /.info-box-content -->
                             </div>
-                            <!-- /.info-box -->
 
                         </div>
                         <!-- /.col -->
@@ -184,44 +156,7 @@
                 </div>
                 <!-- ./box-body -->
                 <div class="box-footer">
-                    <div class="row">
-                        <div class="col-sm-3 col-xs-6">
-                            <div class="description-block border-right">
-                                <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 17%</span>
-                                <h5 class="description-header">$35,210.43</h5>
-                                <span class="description-text">TOTAL STOCK IN</span>
-                            </div>
-                            <!-- /.description-block -->
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-sm-3 col-xs-6">
-                            <div class="description-block border-right">
-                                <span class="description-percentage text-yellow"><i class="fa fa-caret-left"></i> 0%</span>
-                                <h5 class="description-header">$10,390.90</h5>
-                                <span class="description-text">TOTAL STOCK OUT</span>
-                            </div>
-                            <!-- /.description-block -->
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-sm-3 col-xs-6">
-                            <div class="description-block border-right">
-                                <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 20%</span>
-                                <h5 class="description-header">$24,813.53</h5>
-                                <span class="description-text">TOTAL STOCK BORROWED</span>
-                            </div>
-                            <!-- /.description-block -->
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-sm-3 col-xs-6">
-                            <div class="description-block">
-                                <span class="description-percentage text-red"><i class="fa fa-caret-down"></i> 18%</span>
-                                <h5 class="description-header">1200</h5>
-                                <span class="description-text">TOTAL STOCK RETURNED</span>
-                            </div>
-                            <!-- /.description-block -->
-                        </div>
-                    </div>
-                    <!-- /.row -->
+                   
                 </div>
                 <!-- /.box-footer -->
             </div>
@@ -233,3 +168,71 @@
 
 </section>
 
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.get("/Home/DataFromDataBase/", function (data) {
+            BuildChart(data);
+        });
+    });
+</script>
+
+
+
+<script>
+    function BuildChart(result) {
+        var dataPoints = [];
+        var labels = [];
+        $.each(result, function (index, value) {
+            dataPoints.push(value.quantity);
+            labels.push(value.description);
+        });
+        var ctx = document.getElementById("myChart");
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Quantity Available',
+                    data: dataPoints,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                },
+                title: {
+                    display: false,
+                    text: 'Current Levels'
+                }
+            }
+        });
+    }
+
+</script>
+
+<script>
+    $(document).ready(function () {
+        toastr.success(@ViewBag.UserName);
+    });
+</script>

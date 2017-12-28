@@ -1,0 +1,335 @@
+﻿@model AuthenticateIMS.Models.Receipt
+
+<div class="row">
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <div class="box" style="border-top-color: #3c8dbc">
+            <div class="box-header">
+                <h3 class="box-title">Receipt details</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <label for="receiptId">Receipt ID</label>
+                    <input type="text" class="form-control" id="receiptId" value="@ViewBag.receiptId">
+                    @Html.ValidationMessageFor(model => model.receipt_ID, "", new { @class = "text-danger" })
+
+                </div>
+                <div class="form-group" hidden>
+                    <label for="acceptor">Accepter</label>
+                    <input type="text" class="form-control" id="acceptor" placeholder="Mine Number" value="@User.Identity.GetMineNumber()">
+                    @Html.ValidationMessageFor(model => model.acceptor, "", new { @class = "text-danger" })
+
+                </div>
+                <div class="form-group ">
+                    <label for="name">First name</label>
+                    <input type="text" class="form-control" id="name" placeholder="Name of requester" value="@ViewBag.firstName" readonly>
+                    @*@Html.ValidationMessageFor(model => model., "", new { @class = "text-danger" })*@
+                </div>
+                <div class="form-group ">
+                    <label for="name">Last Name</label>
+                    <input type="text" class="form-control" id="name" placeholder="Name of requester" value="@ViewBag.lastName" readonly>
+                    @*@Html.ValidationMessageFor(model => model., "", new { @class = "text-danger" })*@
+                </div>
+                <div class="form-group ">
+                    <label for="position">Position</label>
+                    <input type="text" class="form-control" id="position" placeholder="Position" value="@ViewBag.position" readonly>
+                    @*@Html.ValidationMessageFor(model => model., "", new { @class = "text-danger" })*@
+                </div>
+                <div class="form-group">
+                    <label for="department">Department</label>
+                    <input type="text" class="form-control" id="department" placeholder="Department" value="@ViewBag.department" readonly>
+                    @*@Html.ValidationMessageFor(model => model., "", new { @class = "text-danger" })*@
+                </div>
+                <div class="form-group ">
+                    <label for="site">Site</label>
+                    <input type="text" class="form-control" id="Site" placeholder="Site" value="@ViewBag.site" readonly>
+                    @*@Html.ValidationMessageFor(model => model., "", new { @class = "text-danger" })*@
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+    <!-- /.col -->
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <div class="box" style="border-top-color: #3c8dbc">
+            <div class="box-header">
+                <h3 class="box-title">Stock details</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+
+                <div class="form-group">
+                    <label for="stock">Stock Name</label>
+
+                    @Html.DropDownList("stock", null, htmlAttributes: new { @class = "form-control select", @id = "stock_name" })
+                    @Html.ValidationMessageFor(model => model.stock_code, "", new { @class = "text-danger" })
+
+                </div>
+
+                <div class="form-group">
+                    <label for="quantity">Quantity</label>
+
+                    @Html.EditorFor(model => model.quantity, new { htmlAttributes = new { @class = "form-control", @id = "stock_quantity", @name = "quantity" } })
+                    @Html.ValidationMessageFor(model => model.quantity, "", new { @class = "text-danger" })
+
+                </div>
+
+                <div class="form-group">
+                    <label for="units>">Units of purchase</label>
+
+                    @Html.EditorFor(model => model.units, new { htmlAttributes = new { @class = "form-control", @id = "stock_units", @name = "unit_of_withdraw" } })
+                    @Html.ValidationMessageFor(model => model.units, "", new { @class = "text-danger" })
+
+                </div>
+
+                <div class="form-group">
+                    <label for="date_of_receipt">Date of purchase</label>
+                    <input type="datetime" class="form-control" id="date_of_receipt" name="date_of_withdraw" value="@DateTime.Now.ToString()" />
+                    @Html.ValidationMessageFor(model => model.date_of_receipt, "", new { @class = "text-danger" })
+
+                </div>
+
+                <div class="form-group">
+                    <label for="compartment">Compartment</label>
+                    @Html.DropDownList("compartment", null, htmlAttributes: new { @class = "form-control select", @id = "compartment" })
+                    @Html.ValidationMessageFor(model => model.compartment_ID, "", new { @class = "text-danger" })
+
+                </div>
+
+                <div class="form-group" hidden>
+                    <label for="stock_type">Stock type</label>
+                    <input type="text" class="form-control" id="type" name="stock_type" />
+                    @*@Html.DropDownList("stock_type", null, htmlAttributes: new { @class = "form-control", @id = "stock_type",@name = "stock_type" })*@
+                    @Html.ValidationMessageFor(model => model.stock_type, "", new { @class = "text-danger" })
+
+                </div>
+
+                <div class="form-group">
+                    <label for="expiry_date">Expiry date</label>
+                    @Html.EditorFor(model => model.expiry_date, new { htmlAttributes = new { @class = "form-control", @id = "date_of_expiry", @type = "date" } })
+                    @Html.ValidationMessageFor(model => model.expiry_date, "", new { @class = "text-danger" })
+
+                </div>
+
+                <div class="form-group" hidden>
+                    <label for="stock_category">Stock category</label>
+                    <input type="text" class="form-control" id="category" name="stock_category" />
+                    @*@Html.DropDownList("category_ID", null, htmlAttributes: new { @class = "form-control", @id = "stock_category",@name = "stock_category" })*@
+                    @Html.ValidationMessageFor(model => model.category_ID, "", new { @class = "text-danger" })
+
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+    <!-- /.col -->
+</div>
+<!-- ./row-->
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box" style="border-top-color: #3c8dbc">
+            <div class="box-header">
+                <h3 class="box-title">Comment about this receipt</h3>
+            </div>
+            <!-- /.box-header -->
+
+            <div class="box-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <!--<label for="comment" class="col-sm-2 col-md-2 col-lg-2 control-label">Comment</label>-->
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                            <textarea class="form-control" id="receipt_comment" name="comment" rows="6"></textarea>
+                            @Html.ValidationMessageFor(model => model.comment, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </form>
+                <div class="form-group">
+                    <button id="addReceipt" type="submit" class="btn btn-primary pull-right">Add receipt</button>
+                </div>
+            </div>
+            <!-- /.box-body -->
+
+        </div>
+        <!-- /.box -->
+    </div>
+    <!-- /.col -->
+</div>
+<!-- /.row-->
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box" id="tableShow" style="display: none;border-top-color: #3c8dbc">
+            <div class="box-header">
+                <h3 class="box-title">Receipts ready to be added</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="overflow-x: scroll">
+                <table id="tableBuffer" class="table table-bordered table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th style="display: none"></th>
+                            <th>Item Description</th>
+                            <th>Quantity</th>
+                            <th>Units</th>
+                            <th style="display: none"></th>
+                            <th>Compartment</th>
+                            <th>Remove</th>
+                            <th style="display: none"></th>
+                            <th style="display: none"></th>
+                            <th style="display: none"></th>
+                            <th style="display: none"></th>
+                            <th style="display: none"></th>
+                        </tr>
+                        </tr>
+                    </thead>
+
+                    <tbody></tbody>
+
+                    <tfoot>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+
+                </table>
+                <div class="form-group">
+                    <button id="submitReceipt" onclick="saveReceipt();" class="btn btn-primary pull-right" type="submit">Create receipt</button>
+                </div>
+            </div>
+            <!-- /.box-body -->
+
+        </div>
+        <!-- /.box -->
+    </div>
+    <!-- /.col -->
+</div>
+<!-- /.row -->
+
+<script>
+     $("#stock_name").change(function (event) {
+            var stock_code = $(this).val();
+            $.ajax({
+                url: "@Url.Action("getCategory", "StockWithdraw")",
+                data: { id: stock_code },
+                type: "Get",
+                dataType: "html",
+                success: function (data) {
+                    //Whatever result you have got from your controller with html partial view replace with a specific html.
+                    $("#category").val(data); // HTML DOM replace
+                }
+            });
+        });
+
+         $("#stock_name").change(function (event) {
+            var stock_code = $(this).val();
+            $.ajax({
+                url: "@Url.Action("getStockType", "StockWithdraw")",
+                data: { id: stock_code },
+                type: "Get",
+                dataType: "html",
+                success: function (data) {
+                    //Whatever result you have got from your controller with html partial view replace with a specific html.
+                    $("#type").val(data); // HTML DOM replace
+                }
+            });
+        });
+
+        $("#stock_name").change(function (event) {
+            var stock_code = $(this).val();
+            $.ajax({
+                url: "@Url.Action("getUnit", "RequestDetails")",
+                data: { id: stock_code },
+                type: "Get",
+                dataType: "html",
+                success: function (data) {
+                    //Whatever result you have got from your controller with html partial view replace with a specific html.
+                    $("#stock_units").val(data); // HTML DOM replace
+                }
+            });
+         });
+
+        $("#stock_name").change(function (event) {
+            var stock_code = $(this).val();
+            $.ajax({
+                url: "@Url.Action("getCompartment", "RequestDetails")",
+                data: { id: stock_code },
+                type: "Get",
+                dataType: "html",
+                success: function (data) {
+                    //Whatever result you have got from your controller with html partial view replace with a specific html.
+                    $("#compartment").val(data); // HTML DOM replace
+                }
+            });
+        });
+
+    function saveReceipt() {
+            try {
+                var table = document.getElementById('tableBuffer'),
+                    rows = table.getElementsByTagName('tr'),
+                    i, j, cells, receipt_ID, stock_name, stock_quantity, units, acceptor, date_of_receipt, compartment, type, date_of_expiry, category, receipt_comment;
+
+                for (i = 0, j = rows.length; i < j; ++i) {
+                    cells = rows[i].getElementsByTagName('td');
+                    if (!cells.length) {
+                        continue;
+                    }
+                    //passValues();
+                    receipt_ID = cells[0].innerHTML;
+                    stock_name = cells[1].innerHTML;
+                    stock_quantity = cells[2].innerHTML;
+                    units = cells[3].innerHTML;
+                    acceptor = cells[4].innerHTML;
+                    compartment = cells[5].innerHTML;
+                    date_of_receipt = cells[7].innerHTML;
+                    type = cells[8].innerHTML;
+                    date_of_expiry = cells[9].innerHTML;
+                    category = cells[10].innerHTML;
+                    receipt_comment = cells[11].innerHTML
+
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("CreateReceipt", "Movements")",
+                        data: {
+                            receipt_ID: receipt_ID,
+                            stock_code: stock_name,
+                            quantity: stock_quantity,
+                            units: units,
+                            acceptor: acceptor,
+                            compartment: compartment,
+                            date_of_receipt: date_of_receipt,
+                            stock_type: type,
+                            expiry_date: date_of_expiry,
+                            category_ID: category,
+                            comment: receipt_comment
+                        },
+                        success: function () {
+                            toastr.success("Receipt has been created succefully");
+                            //alert("Success!!!");
+                        },
+                        error: function (xhr, status, errorThrown) {
+                            alert(errorThrown);
+                        }
+                    });
+
+                        //alert(receipt_ID + " " + stock_name + " " + compartment + " " + stock_quantity + " " + units + " " + receipt_comment + " " + date_of_receipt + " " + acceptor + " " + type + " " + category + " " + date_of_expiry);
+                }
+
+                @*jQuery(document).ajaxSuccess(function (event, xhr, settings) {
+                    window.location.href = '@Url.Action("AllStock", "StockDetails")';
+                    $("#notification").fadeIn("fast").append('Withdraw made successfully');
+                    $(".dismiss").click(function () {
+                        $("#notification").fadeOut("slow");
+                    });
+                });*@
+
+            } catch (err) {
+                alert(err.message);
+            }
+        }
+</script>

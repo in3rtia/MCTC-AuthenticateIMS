@@ -6,6 +6,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using AuthenticateIMS.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace AuthenticateIMS
 {
@@ -63,6 +64,70 @@ namespace AuthenticateIMS
             //    ClientId = "",
             //    ClientSecret = ""
             //});
+        }
+
+        //Create roles at application start up
+        private void CreateRolesandUsers()
+        {
+            ApplicationDbContext context = new ApplicationDbContext();
+
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+            var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+            // var userManager =  HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
+
+
+
+            // In Startup we are creating first Admin Role and creating a default Admin User     
+            if (!roleManager.RoleExists("Admin"))
+            {
+                // first we create Admin role   
+                var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
+                role.Name = "Admin";
+                roleManager.Create(role);
+
+                //Here we create a Admin super user who will maintain the website
+                //var store = new UserStore<ApplicationUser>(context);
+                //var manager = new UserManager<ApplicationUser>(store);
+
+                var user = new ApplicationUser();
+                user.UserName = "AA1995";
+                user.Email = "abbie@gmail.com";
+                //user.MineNumber = "AA1995";
+                //user.PasswordHash = "Aa@1995";
+                string Passowrd = "Aa@1995";
+
+                var chkUser = UserManager.Create(user, Passowrd);
+
+                // Add default User to Role Admin
+                if (chkUser.Succeeded)
+                {
+                    var result1 = UserManager.AddToRole(user.Id, "Admin");
+
+                }
+
+                // Initialize default user
+                //manager.Create(admin, "1Admin!");
+                //manager.AddToRole(admin.Id, "Admin");
+            }
+
+
+            //Creating Manager role     
+            if (!roleManager.RoleExists("Requests only"))
+            {
+                var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
+                role.Name = "Requests only";
+                roleManager.Create(role);
+
+            }
+
+            // creating Creating Employee role     
+            if (!roleManager.RoleExists("Approvals and Requests"))
+            {
+                var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
+                role.Name = "Approvals and Requests";
+                roleManager.Create(role);
+
+            }
         }
     }
 }

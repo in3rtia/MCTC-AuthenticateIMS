@@ -13,6 +13,7 @@ namespace AuthenticateIMS.Models
     
     public partial class getAllUnreturnedStock_Result
     {
+        public int id { get; set; }
         public string movement_ID { get; set; }
         public string description_of_items { get; set; }
         public string request_ID { get; set; }

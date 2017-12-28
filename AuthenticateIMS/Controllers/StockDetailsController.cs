@@ -4,6 +4,8 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using AuthenticateIMS.Models;
+using AuthenticateIMS.Extensions;
+using System.Threading.Tasks;
 
 namespace IMS.Controllers
 {
@@ -21,8 +23,16 @@ namespace IMS.Controllers
 
         public ActionResult AllStock()
         {
-            var model = db.Stock_Category;
-            return View(model);
+            var user = User.Identity;
+
+            if (user.IsAdminUser() || user.IsManagerApprover())
+            {
+                var model = db.Stock_Category;
+                return View(model);
+            }
+
+            return View("UnAuthorizedError");
+            
         }
         
         // GET: Stock under a chosen category
@@ -50,28 +60,17 @@ namespace IMS.Controllers
             
         }
 
+        public ActionResult Shortages()
+        {
+            var Shortages = db.Stock_Details.Where(x => x.quantity_available == x.minimum_level).ToList();
+
+            return View(Shortages);
+        }
+
         //GET: all available stock under a chosen category
         public PartialViewResult _StockAvailableCategory(string id)
         {
             var available_stock = db.getAvailableStock(id).Take(5);
-            //getAvailableStock_Result available_stock = null;
-
-            //else
-            //{
-            //    IEnumerable<getAvailableStock_Result> available_stock = new IEnumerable<getAvailableStock_Result>
-            //    {
-            //        stock_code = "",
-            //        description_of_items = "",
-            //        quantity_available = 0,
-            //        unit_of_issue = "",
-            //        stock_type = "",
-            //        expiry_date = DateTime.MinValue,
-            //        compartment_ID = "",
-            //        shelf = "",
-            //        stock_category = "",
-            //        status = "",
-            //    };
-            //}
             return PartialView(available_stock);
         }
 
@@ -100,10 +99,18 @@ namespace IMS.Controllers
         // GET: StockDetails/Create
         public ActionResult Create()
         {
-            ViewBag.compartment_ID = new SelectList(db.Shelf_Compartment, "compartment_ID", "compartment_ID");
-            ViewBag.category_ID = new SelectList(db.Stock_Category, "category_ID", "description");
-            ViewBag.stock_type = new SelectList(db.Stock_Type, "type_ID", "description");
-            return View();
+            var user = User.Identity;
+
+            if (user.IsAdminUser() || user.IsManagerApprover())
+            {
+                ViewBag.compartment_ID = new SelectList(db.Shelf_Compartment, "compartment_ID", "compartment_ID");
+                ViewBag.category_ID = new SelectList(db.Stock_Category, "category_ID", "description");
+                ViewBag.stock_type = new SelectList(db.Stock_Type, "type_ID", "description");
+                return View();
+            }
+
+            return View("UnAuthorizedError");
+                
         }
 
         // POST: StockDetails/Create
@@ -113,17 +120,25 @@ namespace IMS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id,stock_code,quantity_available,unit_of_withdraw,description_of_items,unit_of_issue,reorder_level,minimum_level,date_of_order,expiry_date,stock_type,compartment_ID,category_ID,availability")] Stock_Details stock_Details)
         {
-            if (ModelState.IsValid)
+            var user = User.Identity;
+
+            if (user.IsAdminUser() || user.IsManagerApprover())
             {
-                db.Stock_Details.Add(stock_Details);
-                db.SaveChanges();
-                return RedirectToAction("AllStock");
+                if (ModelState.IsValid)
+                {
+                    db.Stock_Details.Add(stock_Details);
+                    db.SaveChanges();
+                    return RedirectToAction("AllStock");
+                }
+
+                ViewBag.compartment_ID = new SelectList(db.Shelf_Compartment, "compartment_ID", "shelf_ID", stock_Details.compartment_ID);
+                ViewBag.category_ID = new SelectList(db.Stock_Category, "category_ID", "description", stock_Details.category_ID);
+                ViewBag.stock_type = new SelectList(db.Stock_Type, "type_ID", "description", stock_Details.stock_type);
+                return View(stock_Details);
             }
 
-            ViewBag.compartment_ID = new SelectList(db.Shelf_Compartment, "compartment_ID", "shelf_ID", stock_Details.compartment_ID);
-            ViewBag.category_ID = new SelectList(db.Stock_Category, "category_ID", "description", stock_Details.category_ID);
-            ViewBag.stock_type = new SelectList(db.Stock_Type, "type_ID", "description", stock_Details.stock_type);
-            return View(stock_Details);
+            return View("UnAuthorizedError");
+                
         }
 
         // GET: StockDetails/Edit/5

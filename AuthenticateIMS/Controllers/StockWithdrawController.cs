@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using AuthenticateIMS.Models;
+using AuthenticateIMS.Extensions;
 
 namespace IMS.Controllers
 {
@@ -54,11 +55,19 @@ namespace IMS.Controllers
         // GET: StockWithdraw/Create
         public ActionResult Create()
         {
+            var user = User.Identity.GetMineNumber();
             Random r = new Random();
             int rInt = r.Next(0, 10000);
             string withdrawId = "WTD" + rInt;
+            var requester = db.Employee_Details.Where(x => x.mine_number == user).SingleOrDefault();
 
             ViewBag.withdrawId = withdrawId;
+            ViewBag.firstName = requester.firstname;
+            ViewBag.lastName = requester.surname;
+            ViewBag.position = requester.position;
+            ViewBag.site = requester.site;
+            ViewBag.department = requester.department;
+
             ViewBag.stock_type = new SelectList(db.Stock_Type, "type_ID", "description");
             ViewBag.compartment_ID = new SelectList(db.Shelf_Compartment, "compartment_ID", "compartment_ID");
             ViewBag.category_ID = new SelectList(db.Stock_Category, "category_ID", "description");
@@ -71,7 +80,7 @@ namespace IMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         //[HttpPost]
         //[ValidateAntiForgeryToken]
-        public void CreateWithdraw(string withdraw_ID,string stock_code,string quantity,string unit_of_withdraw,string withdrawer, string compartment_ID, string date_of_withdraw, string stock_type, DateTime expiry_date, string category_ID, string comment)
+        public void CreateWithdraw(string withdraw_ID,string stock_code,string quantity,string unit_of_withdraw,string withdrawer, string compartment_ID, string date_of_withdraw, string stock_type, DateTime? expiry_date, string category_ID, string comment)
         {
             int quant = Int32.Parse(quantity);
             DateTime withdrawDate = DateTime.Parse(date_of_withdraw);

@@ -24,9 +24,7 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body" style="overflow-x: scroll">
-                <div>
-                    @Html.ActionLink("Create New", "Create")
-                </div>
+                
                 <table id="example2" class="table table-bordered table-hover table-striped">
                     <thead>
                         <tr>
@@ -39,7 +37,7 @@
                             <th>Return Status</th>
                             <th>Expected Date</th>
                             <th>Return Date</th>
-                            <th>Details</th>
+                            @*<th>Details</th>*@
                         </tr>
                     </thead>
 
@@ -54,9 +52,9 @@
                                 <td>@item.IssuerFirstName @item.IssuerLastName</td>
                                 <td>@item.ReceiverFNAme @item.ReceiverLNAme</td>
                                 <td>@item.status</td>
-                                <td>@item.expected_return_date</td>
-                                <td>@item.return_date</td>
-                                <td>@Html.ActionLink("View Details", "Create")</td>
+                                <td>@Convert.ToDateTime(@item.expected_return_date).ToString("MMMM dd, yyyy")</td>
+                                <td>@Convert.ToDateTime(@item.return_date).ToString("MMMM dd, yyyy")</td>
+                                @*<td>@Html.ActionLink("View Details", "Create", new { @class = "btn btn-xs btn-primary" })</td>*@
                             </tr>
                         }
                     </tbody>

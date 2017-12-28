@@ -7,6 +7,7 @@ using AuthenticateIMS.Models;
 namespace IMS.Controllers
 {
     [Authorize]
+    [Authorize(Roles = "Admin")]
     public class EmployeeDetailsController : Controller
     {
         private StockManagementEntities db = new StockManagementEntities();

@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewBag.Title = "Unauthorised Request";
+    Layout = "~/Views/Shared/_Login.cshtml";
+}
+
+<section class="content-header">
+    
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-home"></i> Dashboard</a></li>
+        <li class="active">Error</li>
+    </ol>
+</section>
+<h2>
+    <strong> ERROR 401 : Unauthorized Request</strong>
+    <small></small>
+</h2>
+<hr />
+<br />
+<div id="error">
+    <h4>
+        Oops!!...
+        You do not have permission to access the requested resource due to security restrictions.
+        In order to gain access, please speak to your system administrator.
+    </h4>
+</div>
+
+

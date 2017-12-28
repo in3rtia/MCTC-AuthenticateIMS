@@ -15,10 +15,10 @@ namespace AuthenticateIMS.Models
     public partial class Approval
     {
         public int id { get; set; }
-        public string request_ID { get; set; }
-        public string stock_code { get; set; }
+        public int request_details_ID { get; set; }
         public string mine_number { get; set; }
     
+        public virtual Request_Details Request_Details { get; set; }
         public virtual Employee_Details Employee_Details { get; set; }
     }
 }

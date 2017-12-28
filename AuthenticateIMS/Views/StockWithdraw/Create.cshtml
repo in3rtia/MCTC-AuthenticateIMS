@@ -6,10 +6,26 @@
 }
 
 <section class="content-header">
-    <h1>
-        Create Withdraw
-        <small>View</small>
-    </h1>
+   
+    <ul class="nav nav-tabs">
+        <li>
+            @*<h2>
+                Create
+                @*<small>View</small>
+            </h2>*@
+        </li>
+        <li class="active">
+            <a data-toggle="tab" href="#withdraw">
+                <h4><strong>Withdraw</strong></h4>
+            </a>
+        </li>
+        <li>
+            <a data-toggle="tab" href="#receipt">
+                <h4><strong>Receipt</strong></h4>
+            </a>
+        </li>
+
+    </ul>
     <ol class="breadcrumb">
         <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-home"></i> Dashboard</a></li>
         <li class="active">Create new order</li>
@@ -18,216 +34,230 @@
 <br />
 
 @*@Html.AntiForgeryToken()*@
-<div class="row">
-    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-        <div class="box" style="border-top-color: #3c8dbc">
-            <div class="box-header">
-                <h3 class="box-title">Order details</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">
-                    <label for="withdrawId">Order ID</label>
-                    <input type="text" class="form-control" id="withdrawId" value="@ViewBag.withdrawId">
-                    @Html.ValidationMessageFor(model => model.withdraw_ID, "", new { @class = "text-danger" })
+<div class="tab-content">
+    <!-- Create order part details -->
+    <div class="tab-pane fade in active" id="withdraw">
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <div class="box" style="border-top-color: #3c8dbc">
+                    <div class="box-header">
+                        <h3 class="box-title">Order details</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            <label for="withdrawId">Order ID</label>
+                            <input type="text" class="form-control" id="withdrawId" value="@ViewBag.withdrawId">
+                            @Html.ValidationMessageFor(model => model.withdraw_ID, "", new { @class = "text-danger" })
 
-                </div>
-                <div class="form-group" hidden>
-                    <label for="withdrawer">Withdrawer</label>
-                    <input type="text" class="form-control" id="withdrawer" placeholder="Mine Number" value="@User.Identity.GetMineNumber()">
-                    @Html.ValidationMessageFor(model => model.withdrawer, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group" hidden>
+                            <label for="withdrawer">Withdrawer</label>
+                            <input type="text" class="form-control" id="withdrawer" placeholder="Mine Number" value="@User.Identity.GetMineNumber()">
+                            @Html.ValidationMessageFor(model => model.withdrawer, "", new { @class = "text-danger" })
 
-                </div>
-                <div class="form-group ">
-                    <label for="name">First name</label>
-                    <input type="text" class="form-control" id="name" placeholder="Name of requester" value="">
-                    @*@Html.ValidationMessageFor(model => model., "", new { @class = "text-danger" })*@
-                </div>
-                <div class="form-group ">
-                    <label for="name">Last Name</label>
-                    <input type="text" class="form-control" id="name" placeholder="Name of requester" value="">
-                    @*@Html.ValidationMessageFor(model => model., "", new { @class = "text-danger" })*@
-                </div>
-                <div class="form-group ">
-                    <label for="position">Position</label>
-                    <input type="text" class="form-control" id="position" placeholder="Position" value="">
-                    @*@Html.ValidationMessageFor(model => model., "", new { @class = "text-danger" })*@
-                </div>
-                <div class="form-group">
-                    <label for="department">Department</label>
-                    <input type="text" class="form-control" id="department" placeholder="Department" value="">
-                    @*@Html.ValidationMessageFor(model => model., "", new { @class = "text-danger" })*@
-                </div>
-                <div class="form-group ">
-                    <label for="site">Site</label>
-                    <input type="text" class="form-control" id="Site" placeholder="Site" value="">
-                    @*@Html.ValidationMessageFor(model => model., "", new { @class = "text-danger" })*@
-                </div>
-            </div>
-            <!-- /.box-body -->
-        </div>
-        <!-- /.box -->
-    </div>
-    <!-- /.col -->
-    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-        <div class="box" style="border-top-color: #3c8dbc">
-            <div class="box-header">
-                <h3 class="box-title">Stock details</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-
-                <div class="form-group">
-                    <label for="stock_name">Stock Name</label>
-
-                    @Html.DropDownList("stock_code", null, htmlAttributes: new { @class = "form-control select2", @id = "stock", @name = "stock_name" })
-                    @Html.ValidationMessageFor(model => model.stock_code, "", new { @class = "text-danger" })
-
-                </div>
-
-                <div class="form-group">
-                    <label for="quantity">Quantity</label>
-
-                    @Html.EditorFor(model => model.quantity, new { htmlAttributes = new { @class = "form-control", @id = "quantity",@name = "quantity" } })
-                    @Html.ValidationMessageFor(model => model.quantity, "", new { @class = "text-danger" })
-
-                </div>
-
-                <div class="form-group">
-                    <label for="unit_of_withdraw>">Unit of order</label>
-
-                    @Html.EditorFor(model => model.unit_of_withdraw, new { htmlAttributes = new { @class = "form-control", @id = "units", @name = "unit_of_withdraw" } })
-                    @Html.ValidationMessageFor(model => model.unit_of_withdraw, "", new { @class = "text-danger" })
-
-                </div>
-
-                <div class="form-group">
-                    <label for="date_of_withdraw">Date of order</label>
-                    <input type="datetime" class="form-control" id="date_of_withdraw" name="date_of_withdraw" value="@DateTime.Now.ToString()" />
-                    @Html.ValidationMessageFor(model => model.date_of_withdraw, "", new { @class = "text-danger" })
-
-                </div>
-
-                <div class="form-group">
-                    <label for="compartment_Id">Compartment</label>
-                    @Html.DropDownList("compartment_ID", null, htmlAttributes: new { @class = "form-control select2", @id = "compartment_Id",@name = "compartment_Id" })
-                    @Html.ValidationMessageFor(model => model.compartment_ID, "", new { @class = "text-danger" })
-
-                </div>
-
-                <div class="form-group" hidden>
-                    <label for="stock_type">Stock type</label>
-                    <input type="text" class="form-control" id="stock_type" name="stock_type" />
-                    @*@Html.DropDownList("stock_type", null, htmlAttributes: new { @class = "form-control", @id = "stock_type",@name = "stock_type" })*@
-                    @Html.ValidationMessageFor(model => model.stock_type, "", new { @class = "text-danger" })
-
-                </div>
-
-                <div class="form-group">
-                    <label for="expiry_date">Expiry date</label>
-                    @Html.EditorFor(model => model.expiry_date, new { htmlAttributes = new { @class = "form-control", @id = "expiry_date",@type = "date" } })
-                    @Html.ValidationMessageFor(model => model.expiry_date, "", new { @class = "text-danger" })
-
-                </div>
-
-                <div class="form-group" hidden>
-                    <label for="stock_category">Stock category</label>
-                    <input type="text" class="form-control" id="stock_category" name="stock_category" />
-                    @*@Html.DropDownList("category_ID", null, htmlAttributes: new { @class = "form-control", @id = "stock_category",@name = "stock_category" })*@
-                    @Html.ValidationMessageFor(model => model.category_ID, "", new { @class = "text-danger" })
-
-                </div>
-            </div>
-            <!-- /.box-body -->
-        </div>
-        <!-- /.box -->
-    </div>
-    <!-- /.col -->
-</div>
-<!-- ./row-->
-<div class="row">
-    <div class="col-xs-12">
-        <div class="box" style="border-top-color: #3c8dbc">
-            <div class="box-header">
-                <h3 class="box-title">Comment about this withdraw</h3>
-            </div>
-            <!-- /.box-header -->
-
-            <div class="box-body">
-                <form class="form-horizontal">
-                    <div class="form-group">
-                        <label for="comment" class="col-sm-2 col-md-2 col-lg-2 control-label">Comment</label>
-                        <div class="col-sm-10 col-md-10 col-lg-10">
-                            <textarea class="form-control" id="comment" name="comment" rows="6"></textarea>
-                            @Html.ValidationMessageFor(model => model.comment, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group ">
+                            <label for="name">First name</label>
+                            <input type="text" class="form-control" id="name" placeholder="Name of requester" value="@ViewBag.firstName" readonly>
+                            @*@Html.ValidationMessageFor(model => model., "", new { @class = "text-danger" })*@
+                        </div>
+                        <div class="form-group ">
+                            <label for="name">Last Name</label>
+                            <input type="text" class="form-control" id="name" placeholder="Name of requester" value="@ViewBag.lastName" readonly>
+                            @*@Html.ValidationMessageFor(model => model., "", new { @class = "text-danger" })*@
+                        </div>
+                        <div class="form-group ">
+                            <label for="position">Position</label>
+                            <input type="text" class="form-control" id="position" placeholder="Position" value="@ViewBag.position" readonly>
+                            @*@Html.ValidationMessageFor(model => model., "", new { @class = "text-danger" })*@
+                        </div>
+                        <div class="form-group">
+                            <label for="department">Department</label>
+                            <input type="text" class="form-control" id="department" placeholder="Department" value="@ViewBag.department" readonly>
+                            @*@Html.ValidationMessageFor(model => model., "", new { @class = "text-danger" })*@
+                        </div>
+                        <div class="form-group ">
+                            <label for="site">Site</label>
+                            <input type="text" class="form-control" id="Site" placeholder="Site" value="@ViewBag.site" readonly>
+                            @*@Html.ValidationMessageFor(model => model., "", new { @class = "text-danger" })*@
                         </div>
                     </div>
-                </form>
-                <div class="form-group">
-                    <button id="addButton" type="submit" class="btn btn-primary pull-right">Add Withdraw</button>
+                    <!-- /.box-body -->
                 </div>
+                <!-- /.box -->
             </div>
-            <!-- /.box-body -->
+            <!-- /.col -->
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <div class="box" style="border-top-color: #3c8dbc">
+                    <div class="box-header">
+                        <h3 class="box-title">Stock details</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
 
-        </div>
-        <!-- /.box -->
-    </div>
-    <!-- /.col -->
-</div>
-<!-- /.row-->
-<div class="row">
-    <div class="col-xs-12">
-        <div class="box" id="table" style="display: none;border-top-color: #3c8dbc">
-            <div class="box-header">
-                <h3 class="box-title">Withdraws ready to be added</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body" style="overflow-x: scroll">
-                <table id="tableBasket" class="table table-bordered table-hover table-striped">
-                    <thead>
-                        <tr>
-                            <th style="display: none"></th>
-                            <th>Item Description</th>
-                            <th>Quantity</th>
-                            <th>Units</th>
-                            <th style="display: none"></th>
-                            <th>Compartment</th>
-                            <th>Remove</th>
-                            <th style="display: none"></th>
-                            <th style="display: none"></th>
-                            <th style="display: none"></th>
-                            <th style="display: none"></th>
-                            <th style="display: none"></th>
-                        </tr>
-                        </tr>
-                    </thead>
+                        <div class="form-group">
+                            <label for="stock_name">Stock Name</label>
 
-                    <tbody></tbody>
+                            @Html.DropDownList("stock_code", null, htmlAttributes: new { @class = "form-control select2", @id = "stock", @name = "stock_name" })
+                            @Html.ValidationMessageFor(model => model.stock_code, "", new { @class = "text-danger" })
 
-                    <tfoot>
-                        <tr>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </tfoot>
+                        </div>
 
-                </table>
-                <div class="form-group">
-                    <button id="btnSubmit" onclick="saveWithdraw();" class="btn btn-primary pull-right" type="submit">Create withdraw</button>
+                        <div class="form-group">
+                            <label for="quantity">Quantity</label>
+
+                            @Html.EditorFor(model => model.quantity, new { htmlAttributes = new { @class = "form-control", @id = "quantity", @name = "quantity" } })
+                            @Html.ValidationMessageFor(model => model.quantity, "", new { @class = "text-danger" })
+
+                        </div>
+
+                        <div class="form-group">
+                            <label for="unit_of_withdraw>">Unit of order</label>
+
+                            @Html.EditorFor(model => model.unit_of_withdraw, new { htmlAttributes = new { @class = "form-control", @id = "units", @name = "unit_of_withdraw" } })
+                            @Html.ValidationMessageFor(model => model.unit_of_withdraw, "", new { @class = "text-danger" })
+
+                        </div>
+
+                        <div class="form-group">
+                            <label for="date_of_withdraw">Date of order</label>
+                            <input type="datetime" class="form-control" id="date_of_withdraw" name="date_of_withdraw" value="@DateTime.Now.ToString()" />
+                            @Html.ValidationMessageFor(model => model.date_of_withdraw, "", new { @class = "text-danger" })
+
+                        </div>
+
+                        <div class="form-group">
+                            <label for="compartment_Id">Compartment</label>
+                            @Html.DropDownList("compartment_ID", null, htmlAttributes: new { @class = "form-control select2", @id = "compartment_Id", @name = "compartment_Id" })
+                            @Html.ValidationMessageFor(model => model.compartment_ID, "", new { @class = "text-danger" })
+
+                        </div>
+
+                        <div class="form-group" hidden>
+                            <label for="stock_type">Stock type</label>
+                            <input type="text" class="form-control" id="stock_type" name="stock_type" />
+                            @*@Html.DropDownList("stock_type", null, htmlAttributes: new { @class = "form-control", @id = "stock_type",@name = "stock_type" })*@
+                            @Html.ValidationMessageFor(model => model.stock_type, "", new { @class = "text-danger" })
+
+                        </div>
+
+                        <div class="form-group">
+                            <label for="expiry_date">Expiry date</label>
+                            @Html.EditorFor(model => model.expiry_date, new { htmlAttributes = new { @class = "form-control", @id = "expiry_date", @type = "date" } })
+                            @Html.ValidationMessageFor(model => model.expiry_date, "", new { @class = "text-danger" })
+
+                        </div>
+
+                        <div class="form-group" hidden>
+                            <label for="stock_category">Stock category</label>
+                            <input type="text" class="form-control" id="stock_category" name="stock_category" />
+                            @*@Html.DropDownList("category_ID", null, htmlAttributes: new { @class = "form-control", @id = "stock_category",@name = "stock_category" })*@
+                            @Html.ValidationMessageFor(model => model.category_ID, "", new { @class = "text-danger" })
+
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
                 </div>
+                <!-- /.box -->
             </div>
-            <!-- /.box-body -->
-
+            <!-- /.col -->
         </div>
-        <!-- /.box -->
+        <!-- ./row-->
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box" style="border-top-color: #3c8dbc">
+                    <div class="box-header">
+                        <h3 class="box-title">Comment about this withdraw</h3>
+                    </div>
+                    <!-- /.box-header -->
+
+                    <div class="box-body">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <!--<label for="comment" class="col-sm-2 col-md-2 col-lg-2 control-label">Comment</label>-->
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <textarea class="form-control" id="comment" name="comment" rows="6"></textarea>
+                                    @Html.ValidationMessageFor(model => model.comment, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </form>
+                        <div class="form-group">
+                            <button id="addButton" type="submit" class="btn btn-primary pull-right">Add Withdraw</button>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+
+                </div>
+                <!-- /.box -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row-->
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box" id="table" style="display: none;border-top-color: #3c8dbc">
+                    <div class="box-header">
+                        <h3 class="box-title">Withdraws ready to be added</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body" style="overflow-x: scroll">
+                        <table id="tableBasket" class="table table-bordered table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="display: none"></th>
+                                    <th>Item Description</th>
+                                    <th>Quantity</th>
+                                    <th>Units</th>
+                                    <th style="display: none"></th>
+                                    <th>Compartment</th>
+                                    <th>Remove</th>
+                                    <th style="display: none"></th>
+                                    <th style="display: none"></th>
+                                    <th style="display: none"></th>
+                                    <th style="display: none"></th>
+                                    <th style="display: none"></th>
+                                </tr>
+                                </tr>
+                            </thead>
+
+                            <tbody></tbody>
+
+                            <tfoot>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+
+                        </table>
+                        <div class="form-group">
+                            <button id="btnSubmit" onclick="saveWithdraw();" class="btn btn-primary pull-right" type="submit">Create withdraw</button>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+
+                </div>
+                <!-- /.box -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
     </div>
-    <!-- /.col -->
+    <!-- /.tab-pane-->
+
+    <!-- Create receipt details part-->
+    <div class="tab-pane fade in" id="receipt">
+        @Html.Action("_CreateReceipt", "Movements");
+    </div>
+    <!-- /.tab-pane-->
 </div>
-<!-- /.row -->
+<!-- /.tab-content-->
+
 
 <script>
         $("#stock").change(function (event) {
@@ -271,92 +301,7 @@
                 }
             });
         });
-</script>
-<script>
-    function showTable() {
-        $("#table").show();
-    }
-</script>
-<script>
-    function validateInput() {
-        var isValid = true;
-        $("div.form-group > input").css({ "border-color": "#d2d6de" });
-        $("div.form-group > select").css({ "border-color": "#d2d6de" });
 
-        if ($('#stock').val() == "0" || $('#stock').val() == "") {
-            $('#stock').css({ "border-color": "Red" });
-            ToggleNotification("Required Field!", "You must select a Stock name");
-            isValid = false;
-        } else if ($('#date_of_withdraw').val() == "0" || $('#date_of_withdraw').val() == "") {
-            $('#date_of_withdraw').css({ "border-color": "Red" });
-            ToggleNotification("Required Field!", "You must select a valid Date of withdraw");
-            isValid = false;
-        } else if ($('#quantity').val() == "0" || $('#quantity').val() == "") {
-            $('#quantity').css({ "border-color": "Red" });
-            ToggleNotification("Required Field!", "You must enter a valid quantity");
-            isValid = false;
-        } else if ($('#category_Id').val() == "" || $('#category_Id').val() == "0" ) {
-            $('#category_Id').css({ "border": "2px solid Red" });
-            ToggleNotification("Required Field!", "You must enter a valid valid category name");
-            isValid = false;
-        } else if ($('#stock_type').val() == "" || $('#stock_type').val() == "0") {
-            $('#stock_type').css({ "border-color": "Red" });
-            ToggleNotification("Required Field!", "You must select a valid stock to get valid stock type");
-            isValid = false;
-        } else if ($('#units').val() == "" || $('#units').val() == "0") {
-            $('#units').css({ "border-color": "Red" });
-            ToggleNotification("Required Field!", "You must enter valid units");
-            isValid = false;
-        }
-        return isValid;
-    }
-</script>
-<script>
-    function BindTable(withdraw_ID, stock_code, quantity, unit_of_withdraw, withdrawer, compartment_ID, date_of_withdraw, stock_type, expiry_date, category_ID, comment) {
-        $("#tableBasket > tbody").append("<tr><td style = 'display: none'>" + withdraw_ID + "</td><td>" +
-            stock_code +
-            "</td><td>" + quantity + "</td><td>" + unit_of_withdraw + "</td><td style = 'display: none'>" + withdrawer + "</td><td>" + compartment_ID +
-            "</td><td><a class='btn text-danger'><i class='fa fa-trash-o'>" +
-            "</i></a></td><td style = 'display: none'>" + date_of_withdraw + "</td><td style = 'display: none'>" +
-            stock_type + "</td><td style = 'display: none'>" + expiry_date + "</td><td style = 'display: none'>" +
-            category_ID + "</td><td style = 'display: none'>" + comment + "</td></tr>");
-    }
-</script>
-<script>
-    $.fn.scrollView = function () {
-        return this.each(function () {
-            $('html, body').animate({
-                scrollTop: $(this).offset().top
-            }, 600);
-        });
-    }
-</script>
-<script>
-    $("#addButton").click(function () {
-        var withdraw_ID = $("#withdrawId").val();
-        var stock_code = $("#stock").val();
-        var quantity = $("#quantity").val();
-        var unit_of_withdraw = $("#units").val();
-        var withdrawer = $("#withdrawer").val();
-        var compartment_ID = $("#compartment_Id").val();
-        var date_of_withdraw = $("#date_of_withdraw").val()
-        var stock_type = $("#stock_type").val();
-        var expiry_date = $("#expiry_date").val();
-        var category_ID = $("#stock_category").val();
-        var comment = $("#comment").val();
-        //var del = "<i class='fa fa-trash-o'></i>";
-        if (validateInput() == true) {
-            BindTable(withdraw_ID, stock_code, quantity, unit_of_withdraw, withdrawer, compartment_ID, date_of_withdraw, stock_type, expiry_date, category_ID, comment);
-            $("#table").show(function () {
-                $("#quantity").val("");
-                $("#comment").val("");
-                $("#expiry_date").val("");
-            });
-            $("#btnSubmit").scrollView();
-        }
-    });
-</script>
-<script>
 
         function saveWithdraw() {
             try {
@@ -399,10 +344,11 @@
                             comment: comment
                         },
                         success: function () {
-                            alert("Success!!!");
+                            toastr.success("Withdraw has been created successfully");
+                            //alert("Success!!!");
                         },
-                        error: function () {
-                            alert("Something went Wrong.");
+                        error: function (xhr, status, errorThrown) {
+                            alert(errorThrown);
                         }
                     });
 

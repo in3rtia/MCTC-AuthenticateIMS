@@ -23,7 +23,7 @@ namespace AuthenticateIMS.Models
         public string issued_by { get; set; }
         public string received_by { get; set; }
         public string transaction_type_ID { get; set; }
-        public Nullable<System.DateTime> date_received { get; set; }
+        public System.DateTime date_received { get; set; }
         public Nullable<int> return_status { get; set; }
         public Nullable<System.DateTime> expected_return_date { get; set; }
         public Nullable<System.DateTime> return_date { get; set; }

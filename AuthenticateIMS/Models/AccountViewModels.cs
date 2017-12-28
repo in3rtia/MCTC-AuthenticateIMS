@@ -50,9 +50,10 @@ namespace AuthenticateIMS.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Email")]
-        [EmailAddress]
-        public string Email { get; set; }
+        [MaxLength(60)]
+        [Index(IsUnique = true)]
+        [Display(Name = "Mine No.")]
+        public string MineNumber { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -65,6 +66,10 @@ namespace AuthenticateIMS.Models
 
     public class RegisterViewModel
     {
+        [Required]
+        [Display(Name = "User Role")]
+        public string UserRole { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]

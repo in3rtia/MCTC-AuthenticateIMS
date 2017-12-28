@@ -42,13 +42,17 @@ namespace AuthenticateIMS
                         "~/Content/iCheck/icheck.min.js",
                         "~/Content/datatables/jquery.dataTables.min.js",
                         "~/Content/datatables/dataTables.bootstrap.min.js",
-                        "~/Scripts/toastr.min.js"
+                        "~/Scripts/toastr.min.js",
+                        "~/Scripts/Custom/CanvasJS.js"
+
                ));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
-                      "~/Scripts/respond.js"
-                      //"~/Scripts/Custom/createRequest.js"
+                      "~/Scripts/respond.js",
+                      "~/Scripts/Custom/create-receipt.js"
+                      //"~/Scripts/Custom/create-withdraw.js"
+               //"~/Scripts/Custom/createRequest.js"
                ));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(

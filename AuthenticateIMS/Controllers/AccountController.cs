@@ -10,6 +10,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using AuthenticateIMS.Models;
 using AuthenticateIMS.Controllers;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Linq.Dynamic.Core;
 
 namespace AuthenticateIMS.Controllers
 {
@@ -18,10 +20,13 @@ namespace AuthenticateIMS.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-        private StockManagementEntities db = new StockManagementEntities();
+        private StockManagementEntities db;
+        private ApplicationDbContext _appDb;
 
         public AccountController()
         {
+            _appDb = new ApplicationDbContext();
+            db = new StockManagementEntities();
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -77,7 +82,7 @@ namespace AuthenticateIMS.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(model.MineNumber, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -141,6 +146,8 @@ namespace AuthenticateIMS.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            ViewBag.MineNumber = new SelectList(db.Employee_Details, "mine_number", "mine_number");
+            ViewBag.UserRole = new SelectList(_appDb.Roles.Where(u => u.Id != "Admin"), "Name", "Name");
             return View();
         }
 
@@ -153,8 +160,9 @@ namespace AuthenticateIMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, MineNumber = model.MineNumber,Email = model.Email };
+                var user = new ApplicationUser { UserName = model.MineNumber, MineNumber = model.MineNumber,Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
+                //string userRole = model.UserRole.ToString();
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
@@ -164,11 +172,18 @@ namespace AuthenticateIMS.Controllers
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-          
+
+                    //Add user to role
+                    //userManager.AddToRole(user.Id, model.UserRole);
+                    await UserManager.AddToRoleAsync(user.Id, model.UserRole);
+            
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
             }
+
+            ViewBag.MineNumber = new SelectList(db.Employee_Details, "mine_number", "mine_number");
+            ViewBag.UserRole = new SelectList(_appDb.Roles.Where(u => u.Id != "Admin"), "Name", "Name");
 
             // If we got this far, something failed, redisplay form
             return View(model);

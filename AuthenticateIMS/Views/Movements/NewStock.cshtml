@@ -1,0 +1,66 @@
+﻿@model IEnumerable<AuthenticateIMS.Models.Stock_Withdraw>
+
+@{
+    ViewBag.Title = "New Stock";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="content-header">
+    <h1>
+        @ViewBag.Category
+        <h1>
+            New Stock
+            <small>View</small>
+        </h1>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-home"></i> Dashboard</a></li>
+        <li class="active"></li>
+    </ol>
+</section>
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box" style="border-top-color: #3c8dbc">
+            <div class="box-header">
+                <h3 class="box-title"></h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="overflow-x: scroll">
+                <table id="example2" class="table table-bordered table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>Stock Code</th>
+                            <th>Item Description</th>
+                            <th>Quantity</th>
+                            <th>Withdraw Unit</th>
+                            <th>Withdrawer</th>
+                            <th>Date of Withdraw</th>
+                            <th>Compartment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.stock_code</td>
+                                <td>@item.Stock_Details.description_of_items</td>
+                                <td>@item.quantity</td>
+                                <td>@item.unit_of_withdraw</td>
+                                <td>@item.Employee_Details.firstname @item.Employee_Details.surname</td>
+                                <td>@Convert.ToDateTime(@item.date_of_withdraw).ToString("MMMM dd, yyyy")</td>
+                                <td>@item.compartment_ID</td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+    <!-- /.col -->
+</div>
+<!-- /.row -->

@@ -83,6 +83,7 @@
                 <table id="example2" class="table table-bordered table-hover table-striped">
                     <thead>
                         <tr>
+                            <th style="display: none">Id</th>
                             <th>Request ID</th>
                             <th>Item Name</th>
                             <th>Compartment</th>
@@ -90,7 +91,10 @@
                             <th>Date Received</th>
                             <th>Return Status</th>
                             <th>Date Returned</th>
-                            <th>Reverse</th>
+                            @if (User.Identity.IsManagerApprover())
+                            {
+                                <th>Reverse</th>
+                            } 
                         </tr>
                     </thead>
 
@@ -98,14 +102,42 @@
                         @foreach (var item in Model)
                         {
                             <tr>
+                                <td style="display: none">@item.id</td>
                                 <td>@item.request_ID</td>
                                 <td>@item.Stock_Details.description_of_items</td>
                                 <td>@item.compartment_ID</td>
                                 <td>@item.quantity_supplied @item.Stock_Details.unit_of_issue</td>
-                                <td>@item.date_received</td>
+                                <td>@Convert.ToDateTime(@item.date_received).ToString("MMMM dd, yyyy")</td>
                                 <td>@item.Return_Status1.status</td>
-                                <td>@item.return_date</td>
-                                <td><button class="btn-link" data-toggle="modal" data-target="#reverseModal-@item.movement_ID">Reverse</button></td>
+                                @if (item.Stock_Details.stock_type == "Retn")
+                                {
+                                    if (item.return_status == 0)
+                                    {
+                                        if (User.Identity.IsManagerApprover() || User.Identity.IsAdminUser())
+                                        {
+                                            <td id="changeDate"><button class="return btn btn-xs btn-primary" data-toggle="modal" data-target="#returnModal-@item.movement_ID">Return</button></td>
+                                        }
+                                        <td><span class="text-danger">Not returned</span></td>
+                                    }
+                                    else
+                                    {
+                                        <td>@Convert.ToDateTime(@item.return_date).ToString("MMMM dd, yyyy")</td>
+                                       
+                                    }
+                                }
+                                else
+                                {
+                                    <td>Not Applicable</td>
+                                }
+            
+                                @if (User.Identity.IsManagerApprover() || User.Identity.IsAdminUser())
+                                {
+                                    <div class="form-group">
+                                        <td><button class="btn btn-xs btn-warning" data-toggle="modal" data-target="#reverseModal-@item.movement_ID">Reverse</button></td>
+                                    </div>
+
+                                }
+                                
                             </tr>
                             
                                 <div class="modal fade" id="reverseModal-@item.movement_ID" role="dialog">
@@ -131,7 +163,42 @@
                                         </div>
                                     </div>
                                 </div> <!-- end modal -->
-                           
+
+                                <div class="modal fade" id="returnModal-@item.movement_ID" role="dialog">
+                                    <div class="modal-dialog modal-md">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h4 class="modal-title">Confirmation</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-left: 30px; padding-right: 30px">
+                                                        <div class="row">
+                                                            <p>
+                                                                If you are sure you want to <strong>
+                                                                    return issue
+                                                                   @item.movement_ID
+                                                                </strong> enter the comment below.
+                                                            </p>
+                                                            <div class="form-group">
+                                                                <label for="returnComment">Comment:</label>
+                                                               <textarea class="form-control" id="returnComment" cols="4" rows="4"></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" id="return" class="returnBtn btn btn-success">Yes</button>
+                                                <button type="button" class="btn btn-primary" data-dismiss="modal">
+                                                    Close
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> <!-- end modal -->
+
 
                         }
                     </tbody>
@@ -153,5 +220,47 @@
         location.href = url; // redirect
         return false; // cancel default redirect
     });
+
+    $('#return').click(function () {
+        var comment = $('#returnComment').val(); // get the textbox value
+        var url = $(this).attr('href') + '?returnComment=' + comment; // build new url
+        location.href = url; // redirect
+        return false; // cancel default redirect
+    });
+
+</script>
+<script>
+    $(document).ready(function () {
+
+        var td, tr, data;
+        var dateReturned = '@ViewBag.dateToday';
+
+        $(document).on("click","button.return", function () {
+           td = $(this).parent();
+           tr = td.parent();
+           data = tr.find('td').eq(0).text();
+
+        });
+
+        $(document).on("click", "button.returnBtn", function () {
+            var retComment = $("#returnComment").val();
+            alert(dateReturned + " " + retComment);
+            @*$.ajax({
+              
+                type: "POST",
+                url: "@Url.Action("ReturnItem", "Issues")",
+                data: { id: data, comment: retComment },
+                success: function (data) {
+                    toastr.success("Item has been returned successfullly!");
+                    $("#changeDate").html(dateReturned);
+                },
+                error: function (xhr, status, errorThrown) {
+                    alert(errorThrown);
+                }
+            });*@
+        });
+
+    });
+
 
 </script>

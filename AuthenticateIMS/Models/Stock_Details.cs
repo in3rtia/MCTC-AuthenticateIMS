@@ -18,6 +18,7 @@ namespace AuthenticateIMS.Models
         public Stock_Details()
         {
             this.Movements = new HashSet<Movement>();
+            this.Receipts = new HashSet<Receipt>();
             this.Request_Details = new HashSet<Request_Details>();
             this.Stock_Withdraw = new HashSet<Stock_Withdraw>();
         }
@@ -39,6 +40,8 @@ namespace AuthenticateIMS.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Movement> Movements { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Receipt> Receipts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Request_Details> Request_Details { get; set; }
         public virtual Shelf_Compartment Shelf_Compartment { get; set; }
